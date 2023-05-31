@@ -182,6 +182,7 @@ public class LoginPage{
 
 
     public void clickLogin(){
+        ClickSound.sound();
         roleWarning.setVisible(false);
         wrongUserWarning.setVisible(false);
         if(checkCaptcha()==0){
@@ -218,6 +219,7 @@ public class LoginPage{
 
 
     public void clickSignup(){
+      ClickSound.sound();
       roleWarning.setVisible(false);
       wrongUserWarning.setVisible(false);
       if(toggle1.getSelectedToggle()==null){
