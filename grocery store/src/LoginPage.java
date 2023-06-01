@@ -6,9 +6,17 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
@@ -82,6 +90,20 @@ public class LoginPage{
       else return 1;
     }
 
+    void stage2() throws IOException{
+          try {
+          
+          FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Demo.fxml"));
+          Parent root1 = (Parent) fxmlLoader.load();
+          Stage stage = new Stage();
+          stage.setScene(new Scene(root1));  
+          stage.show();
+          stage.setMaximized(true);
+          stage.getIcons().add(new Image("storeicon.png"));
+      }finally{
+        
+      }
+    }
     void signupCustomer(String user, String pass){
       try {
         BufferedWriter output = new BufferedWriter(new FileWriter("src/customers.txt", true));
@@ -199,15 +221,33 @@ public class LoginPage{
 
             int sw=0; 
             if( toggleGroupValue.equals("customer") && checkUserPassCustomer(user,pass)){
-                System.out.print("yes whale");
+                System.out.print("yes whale"); 
+                try {
+                  stage2();
+                } catch (IOException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+                }
                 sw=1;
             }
             if( toggleGroupValue.equals("admin") && checkUserPassAdmin(user,pass)){
                 System.out.print("yes whale");
+                try {
+                  stage2();
+                } catch (IOException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+                }
                 sw=1;
             }
             if( toggleGroupValue.equals("store / company") && checkUserPassStore(user,pass)){
                 System.out.print("yes whale");
+                try {
+                  stage2();
+                } catch (IOException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+                }
                 sw=1;
             }
 
@@ -218,7 +258,8 @@ public class LoginPage{
     }
 
 
-    public void clickSignup(){
+    public void clickSignup() throws IOException{
+    
       ClickSound.sound();
       roleWarning.setVisible(false);
       wrongUserWarning.setVisible(false);

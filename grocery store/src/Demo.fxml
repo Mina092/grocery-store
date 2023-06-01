@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="134.0" prefWidth="1280.0" style="-fx-background-color: #272727;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="109.0" fitWidth="440.0" layoutX="807.0" layoutY="11.0">
+               <image>
+                  <Image url="@logo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </top>
+   <right>
+      <AnchorPane prefHeight="586.0" prefWidth="313.0" style="-fx-background-color: #ec6f2d;" BorderPane.alignment="CENTER">
+         <children>
+            <MenuButton layoutX="11.0" layoutY="38.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="291.0" text="categories">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
