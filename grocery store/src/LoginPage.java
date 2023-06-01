@@ -29,6 +29,7 @@ import java.util.Scanner;
 import java.util.zip.CRC32C;
 
 public class LoginPage{
+    public static String user, pass;
     public RadioButton customerRadioButton;
     public RadioButton storeRadioButton;
     public RadioButton adminRadioButton;
@@ -98,7 +99,6 @@ public class LoginPage{
           Stage stage = new Stage();
           stage.setScene(new Scene(root1));  
           stage.show();
-          stage.setMaximized(true);
           stage.getIcons().add(new Image("storeicon.png"));
       }finally{
         
@@ -214,8 +214,8 @@ public class LoginPage{
             roleWarning.setVisible(true);
         }
         if(checkCaptcha()==1 && toggle1.getSelectedToggle()!=null){
-            String user= usernameText.getText();
-            String pass= passwordText.getText();
+            user= usernameText.getText();
+             pass= passwordText.getText();
             RadioButton selectedRadioButton = (RadioButton) toggle1.getSelectedToggle();
             String toggleGroupValue = selectedRadioButton.getText();
 
