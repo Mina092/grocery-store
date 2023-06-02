@@ -78,25 +78,25 @@ public class LoginPage{
         }
       }
       if(cap2.isVisible()){
-        if(answer.equals("TSMS9")){
+        if(answer.equals("RBSKW")){
           sw=1;
         }
       }
       if(cap3.isVisible()){
-        if(answer.equals("RBSKW")){
+        if(answer.equals("TSMS9")){
           sw=1;
         }
       }
       if(sw==0) return 0;
       else return 1;
     }
-
+static Stage stage = new Stage();
     void stage2() throws IOException{
           try {
           
           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Demo.fxml"));
           Parent root1 = (Parent) fxmlLoader.load();
-          Stage stage = new Stage();
+          
           stage.setScene(new Scene(root1));  
           stage.show();
           stage.getIcons().add(new Image("storeicon.png"));
@@ -222,6 +222,7 @@ public class LoginPage{
             int sw=0; 
             if( toggleGroupValue.equals("customer") && checkUserPassCustomer(user,pass)){
                 System.out.print("yes whale"); 
+                //close login window
                 try {
                   stage2();
                 } catch (IOException e) {
@@ -232,6 +233,7 @@ public class LoginPage{
             }
             if( toggleGroupValue.equals("admin") && checkUserPassAdmin(user,pass)){
                 System.out.print("yes whale");
+                //close login window
                 try {
                   stage2();
                 } catch (IOException e) {
@@ -242,6 +244,7 @@ public class LoginPage{
             }
             if( toggleGroupValue.equals("store / company") && checkUserPassStore(user,pass)){
                 System.out.print("yes whale");
+                //close login window
                 try {
                   stage2();
                 } catch (IOException e) {
