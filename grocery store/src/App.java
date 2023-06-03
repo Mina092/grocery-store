@@ -17,6 +17,8 @@ public class App extends Application {
         primaryStage.getIcons().add(new Image("loginicon.png"));
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
+
+
         primaryStage.show();
         
     }

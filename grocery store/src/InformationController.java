@@ -1,5 +1,4 @@
-
-import javax.naming.NameNotFoundException;
+import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,57 +6,72 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import javafx.stage.Stage;
+
+
+
 public class InformationController {
+    @FXML
+    private static TextField addressText;
+
+    @FXML
+    private TextField commentText;
+
+    @FXML
+    private Button finishBut;
 
     @FXML
     private static TextField nameText;
-    private static TextField addressText;
+
+    @FXML
+    private static Button nextButt;
+
+    @FXML
     private static TextField phoneText;
+
+    @FXML
     private static TextField postalText;
 
-    private static TextField commentText;
-    private static TextField discountText;
-
-    private static Button checkDiscount;
-    private static Button payBut;
-    private static Button finishBut;
-
+    @FXML
     private static Label starAddress;
+
+    @FXML
     private static Label starName;
+
+    @FXML
     private static Label starPhone;
+
+    @FXML
     private static Label starPost;
+
+    @FXML
     private static Label uncompleteLabel;
+     
 
-    private static String name;
-    private static String address;
-    private static String phone;
-    private static String post; 
-
-
-    // static void Informatin(){
+    @FXML
+    static void initialize(){
         
-    //     starName.setVisible(true);
-    //     starAddress.setVisible(true);
-    //     starPhone.setVisible(true);
-    //     starPost.setVisible(true);
-    //     uncompleteLabel.setVisible(true);
-    //     payBut.setDisable(true);
+        starName.setVisible(false);
+        starAddress.setVisible(false);
+        starPhone.setVisible(false);
+        starPost.setVisible(false);
+        uncompleteLabel.setVisible(false);
+        nextButt.setDisable(true);
 
-    //     name = nameText.getText();
-    //     address = addressText.getText();
-    //     phone = phoneText.getText();
-    //     post = postalText.getText();
+    }
 
-    // }
-
+    static String name, address, phone, post;
+    @FXML
     static void finishButton(ActionEvent event){
         name = nameText.getText();
         address = addressText.getText();
         phone = phoneText.getText();
         post = postalText.getText();
         
-        if(IsPayable(name, address, phone, post)) 
-            payBut.setDisable(false);
+        System.out.println("HEYYY");
+        
+        // if(IsPayable(name, address, phone, post)) 
+        //     nextButt.setDisable(false);
     }
 
     static boolean IsPayable(String name ,String address, String phone , String post ){
@@ -87,6 +101,29 @@ public class InformationController {
 
         return IsComplete;
     }
+
+    @FXML
+    private Stage stage;
+    // private Scene scene;
+    // private Parent root;
+    
+    @FXML
+    public void nextPage (ActionEvent event)throws IOException{
+
+        System.out.println("HEYYY");
+        //     try {
+        //     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("payPage.fxml"));
+        //     Parent root = (Parent) fxmlLoader.load();
+            
+        //     stage.setScene(new Scene(root));  
+        //     stage.show();
+        //     // stage.getIcons().add(new Image("storeicon.png"));
+        // }finally{
+          
+        // }
+      }
+
+    
 }
 // TODO: link to pay page
 // save information

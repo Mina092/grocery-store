@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CntrollerScene">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InformationController">
    <children>
       <AnchorPane prefHeight="107.0" prefWidth="705.0">
          <children>
@@ -93,7 +93,7 @@
       </AnchorPane>
       <AnchorPane layoutX="505.0" layoutY="113.0" prefHeight="619.0" prefWidth="200.0" style="-fx-background-color: #b5b4b3;">
          <children>
-            <Button fx:id="next" layoutX="57.0" layoutY="286.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: #272727; -fx-cursor: hand;" text="Next" textFill="WHITE">
+            <Button fx:id="nextButt" layoutX="57.0" layoutY="286.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: #272727; -fx-cursor: hand;" text="Next" textFill="WHITE">
                <font>
                   <Font size="21.0" />
                </font>
