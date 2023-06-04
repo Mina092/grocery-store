@@ -39,13 +39,14 @@ public class ProductsPage{
         }finally{
           
         }
+        
         try {
-            TimeUnit.SECONDS.sleep(8);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        loadingstage.close();
+         loadingstage.close();
     }
 
 
@@ -60,6 +61,12 @@ public class ProductsPage{
     }
     public void logout(){
         ClickSound.sound();
+        // try {
+        //     loading();
+        // } catch (IOException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
         LoginPage.stage.close();
         //open login window
     }

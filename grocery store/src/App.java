@@ -11,10 +11,10 @@ public class App extends Application {
     } 
     
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("LoginPage.fxml"));
-        Scene scene = new Scene(root, 600, 400);
-        primaryStage.setTitle("Login Page");
-        primaryStage.getIcons().add(new Image("loginicon.png"));
+        Parent root = FXMLLoader.load(getClass().getResource("loader.fxml"));
+        Scene scene = new Scene(root, 600, 471);
+        // primaryStage.setTitle("Login Page");
+        // primaryStage.getIcons().add(new Image("loginicon.png"));
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
 
