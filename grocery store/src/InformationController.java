@@ -2,9 +2,6 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,7 +12,7 @@ import javafx.stage.Stage;
 
 public class InformationController {
     @FXML
-    private  TextField addressText;
+    private static TextField addressText;
 
     @FXML
     private TextField commentText;
@@ -24,35 +21,35 @@ public class InformationController {
     private Button finishBut;
 
     @FXML
-    private  TextField nameText;
+    private static TextField nameText;
 
     @FXML
-    private  Button nextButt;
+    private static Button nextButt;
 
     @FXML
-    private  TextField phoneText;
+    private static TextField phoneText;
 
     @FXML
-    private  TextField postalText;
+    private static TextField postalText;
 
     @FXML
-    private  Label starAddress;
+    private static Label starAddress;
 
     @FXML
-    private  Label starName;
+    private static Label starName;
 
     @FXML
-    private  Label starPhone;
+    private static Label starPhone;
 
     @FXML
-    private  Label starPost;
+    private static Label starPost;
 
     @FXML
-    private  Label uncompleteLabel;
+    private static Label uncompleteLabel;
      
 
     @FXML
-    public void initialize(){
+    static void initialize(){
         
         starName.setVisible(false);
         starAddress.setVisible(false);
@@ -63,89 +60,67 @@ public class InformationController {
 
     }
 
-     String name, address, phone, post;
+    static String name, address, phone, post;
     @FXML
-     public void finishButton(){
+    static void finishButton(ActionEvent event){
         name = nameText.getText();
         address = addressText.getText();
         phone = phoneText.getText();
         post = postalText.getText();
         
+        System.out.println("HEYYY");
         
-        if(IsPayable(name, address, phone, post)) 
-            nextButt.setDisable(false);
-        else nextButt.setDisable(true);
-
+        // if(IsPayable(name, address, phone, post)) 
+        //     nextButt.setDisable(false);
     }
 
-    public boolean IsPayable(String name ,String address, String phone , String post ){
+    static boolean IsPayable(String name ,String address, String phone , String post ){
         boolean IsComplete = true ;
-        int swName =1, swAddress =1, swPhone =1 , swPost =1;
-
-        if(name == null || name == ""){
+        if(name == null){
             starName.setVisible(true);
-            swName = 0;
-            
-        }else {
-            starName.setVisible(false);
-            swName = 1;
-        }
+            IsComplete = false;
+        }else starName.setVisible(false);
 
-        if(address ==null || address == ""){
+        if(address ==null){
             starAddress.setVisible(true);
-            swAddress = 0;
+            IsComplete = false;
+        }else starAddress.setVisible(false);
 
-        }else {
-            starAddress.setVisible(false);
-            swAddress = 1;
-        }
-
-        if(phone ==null || phone == ""){
+        if(phone ==null){
             starPhone.setVisible(true);
-            swPhone =0;
-        }else{ 
-            starPhone.setVisible(false);
-            swPhone = 1;
-        }
+            IsComplete = false;
+        }else starPhone.setVisible(false);
 
-        if(post ==null|| post == ""){
+        if(post ==null){
             starPost.setVisible(true);
-            swPost = 0;
-        }else {
-            starPost.setVisible(false);
-            swPost = 1;
-        }
-        
+            IsComplete = false;
+        }else starPost.setVisible(false);
 
-        if(swAddress ==1 && swName==1 && swPhone==1 && swPost==1) IsComplete = true;
-        else IsComplete = false;
-
-        if(!IsComplete){
-            uncompleteLabel.setVisible(true);
-        } 
-        else {
-            uncompleteLabel.setVisible(false);
-        } 
+        if(!IsComplete) uncompleteLabel.setVisible(true);
+        else  uncompleteLabel.setVisible(false);
 
         return IsComplete;
     }
 
     @FXML
-    private Stage stage = new Stage();
+    private Stage stage;
+    // private Scene scene;
+    // private Parent root;
     
     @FXML
     public void nextPage (ActionEvent event)throws IOException{
 
-            try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("payPage.fxml"));
-            Parent root = (Parent) fxmlLoader.load();
+        System.out.println("HEYYY");
+        //     try {
+        //     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("payPage.fxml"));
+        //     Parent root = (Parent) fxmlLoader.load();
             
-            stage.setScene(new Scene(root));  
-            stage.show();
-            // stage.getIcons().add(new Image("storeicon.png"));
-        }finally{
+        //     stage.setScene(new Scene(root));  
+        //     stage.show();
+        //     // stage.getIcons().add(new Image("storeicon.png"));
+        // }finally{
           
-        }
+        // }
       }
 
     
