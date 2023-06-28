@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginPage">
+   <top>
+      <AnchorPane prefHeight="150.0" prefWidth="600.0" style="-fx-background-color: #e3e1de;" BorderPane.alignment="CENTER">
+         <children>
+            <RadioButton fx:id="custumerRadiobutton" layoutX="74.0" layoutY="111.0" mnemonicParsing="false" text="customer">
+               <toggleGroup>
+                  <ToggleGroup fx:id="toggle1" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="adminRadiobutton" layoutX="273.0" layoutY="111.0" mnemonicParsing="false" text="admin" toggleGroup="$toggle1" />
+            <RadioButton fx:id="storeRadiobutton" layoutX="423.0" layoutY="111.0" mnemonicParsing="false" text="store / company" toggleGroup="$toggle1" />
+            <ImageView fitHeight="82.0" fitWidth="85.0" layoutX="436.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@2519376.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="82.0" fitWidth="85.0" layoutX="259.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@3195967.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="82.0" fitWidth="85.0" layoutX="69.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@1924854.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane fx:id="chooseRole" prefHeight="245.0" prefWidth="600.0" style="-fx-background-color: #272727;" BorderPane.alignment="CENTER">
+         <children>
+            <PasswordField fx:id="passwordText" layoutX="211.0" layoutY="66.0" prefHeight="25.0" prefWidth="207.0" promptText="Password" />
+            <TextField fx:id="usernameText" layoutX="211.0" layoutY="25.0" prefHeight="25.0" prefWidth="206.0" promptText="Username" />
+            <Text fill="WHITE" layoutX="137.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
+            <Text fill="WHITE" layoutX="137.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
+            <Button fx:id="loginbutton" layoutX="351.0" layoutY="109.0" mnemonicParsing="false" onAction="#clickLogin" prefHeight="25.0" prefWidth="67.0" text="Login" />
+            <ImageView fitHeight="64.0" fitWidth="215.0" layoutX="14.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@logo.png" />
+               </image>
+            </ImageView>
+            <Hyperlink fx:id="noAccountLink" layoutX="233.0" layoutY="141.0" onAction="#noAccount" text="I don't have an account." textAlignment="CENTER" textFill="#654d29" underline="true" />
+            <Text fx:id="roleWarning" fill="#b21616" layoutX="223.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please choose a role first." visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <Text fx:id="wrongUserWarning" fill="#b21616" layoutX="210.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wrong username or password." visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <Button fx:id="signupButton" layoutX="261.0" layoutY="109.0" mnemonicParsing="false" onAction="#clickSignup" prefHeight="25.0" prefWidth="78.0" text="sign up" visible="false" />
+            <Hyperlink fx:id="back" layoutX="263.0" layoutY="141.0" onAction="#back" text="back to login" textAlignment="CENTER" textFill="#654d29" underline="true" visible="false" />
+            <ImageView fitHeight="144.0" fitWidth="168.0" layoutX="396.0" layoutY="1.0">
+               <image>
+                  <Image url="@lock.gif" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cap1" fitHeight="28.0" fitWidth="108.0" layoutX="83.0" layoutY="108.0" visible="false">
+               <image>
+                  <Image url="@botdetect3-captcha-ancientmosaic.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cap2" fitHeight="28.0" fitWidth="108.0" layoutX="83.0" layoutY="108.0" visible="false">
+               <image>
+                  <Image url="@botdetect3-captcha-blackoverlap.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cap3" fitHeight="28.0" fitWidth="108.0" layoutX="83.0" layoutY="108.0" visible="false">
+               <image>
+                  <Image url="@botdetect3-captcha-bubbles.jpg" />
+               </image>
+            </ImageView>
+            <Text layoutX="457.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fx:id="captchaWarning" fill="#b21616" layoutX="435.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wrong captcha" visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <TextField fx:id="captchaText" layoutX="212.0" layoutY="109.0" prefHeight="25.0" prefWidth="133.0" promptText="captcha" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
