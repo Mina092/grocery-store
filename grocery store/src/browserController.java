@@ -1,3 +1,4 @@
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -19,9 +20,19 @@ import java.sql.Connection;
 
 
 public class browserController {
+
     @FXML
-
-
+    private Button categoryFilterB;
+    
+    @FXML
+    private Button sortFilterB;
+        
+    @FXML
+    private Button brandFilterB;
+    @FXML
+    private Slider slider;
+    
+    @FXML
     public TabPane tabpane;
     public Tab logoutTab, browseTab;
     public Button logoutButton, backToBrowseButton;
@@ -31,13 +42,16 @@ public class browserController {
     private GridPane gridPane ;
 
     boolean diary = false , protein = false, snack = false, drink = false;
-    boolean priceD = false , priceA = false,  rateD = false, rateA = false;
+    boolean priceD = false , priceA = false,  rateD = false, rateA = false , newest = false ,oldest = false;
+    boolean brand1 = false , brand2 = false , brand3 = false, brand4 = false;
+
     public void sort(String sortBy) throws IOException{
 
-        System.out.println("diary" + diary);
-        System.out.println("pro" + protein);
-        System.out.println("snack" + snack);
-        System.out.println("drink" + drink );
+        //test
+        // System.out.println("diary" + diary);
+        // System.out.println("pro" + protein);
+        // System.out.println("snack" + snack);
+        // System.out.println("drink" + drink );
 
 
         String username = "root";
@@ -68,6 +82,7 @@ public class browserController {
                         price = result.getString(2); 
                         rate = result.getString(3); 
 
+                        //test
                         // System.out.println(name+" " + price+" " + rate);
 
 
@@ -109,96 +124,248 @@ public class browserController {
     }
    
    public void allSort() throws IOException{
-    //to do:sort form date
-    sort("");
+
+    diary = false ; protein = false; snack = false; drink = false;newest = false ; oldest = false;
+    categoryFilterB.setText("all (newest)");
+    
+    String sortBy = null , brand = null;
+
+    //sortBy
+    if (priceD) sortBy = "price DESC";
+    else if(priceA) sortBy = "price ASC";
+    else if(rateA) sortBy = "rate ASC";
+    else if(rateD) sortBy = "rate DESC";
+    else if (newest) sortBy = "date DESC";
+    else if (oldest) sortBy = "date ASC";
+
+    //brand
+    if (brand1) brand = "brand1";
+    else if(brand2) brand = "brand2";
+    else if(brand3) brand = "brand3";
+    else if(brand4) brand = "brand4";
+    
+    if(brand != null && sortBy == null) sort("WHERE brand = '"+ brand +"' ordered by date DESC;");
+    else if(brand == null && sortBy != null) sort(" ORDER BY " +sortBy+ ";");
+    else if(brand == null && sortBy == null) sort(" ORDER BY date DESC;");
+    else if(brand != null && sortBy != null) sort(" and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+   }
+
+   public void categorySort(String category) throws IOException{
+    String sortBy = null , brand = null;
+
+    //sortBy
+    if (priceD) sortBy = "price DESC";
+    else if(priceA) sortBy = "price ASC";
+    else if(rateA) sortBy = "rate ASC";
+    else if(rateD) sortBy = "rate DESC";
+    else if (newest) sortBy = "date DESC";
+    else if (oldest) sortBy = "date ASC";
+
+    //brand
+    if (brand1) brand = "brand1";
+    else if(brand2) brand = "brand2";
+    else if(brand3) brand = "brand3";
+    else if(brand4) brand = "brand4";
+    
+    if(brand != null && sortBy == null) sort("WHERE category = '"+ category +"' and brand = '" + brand +"' ordered by date DESC;");
+    else if(brand == null && sortBy != null) sort(" WHERE category = '" + category +"' ORDER BY " +sortBy+ ";");
+    else if(brand == null && sortBy == null) sort(" WHERE category = '" + category +"' ORDER BY date DESC;");
+    else if(brand != null && sortBy != null) sort(" WHERE category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+
    }
    
    public void diarySort() throws IOException{
+    
+    categoryFilterB.setText("diray");
 
     diary = true ; protein = false; snack = false; drink = false;
-    if (priceD) sort("WHERE category = 'diary' ORDER BY price DESC;");
-    else if(priceA) sort("WHERE category = 'diary' ORDER BY price ASC;");
-    //todo
-    else if(rateA) sort("WHERE category = 'diary' ORDER BY rate ASC;");
-    else if(rateD) sort("WHERE category = 'diary' ORDER BY rate DESC;");
-    else sort("WHERE category = 'diary';");
+
+    categorySort("diray");
    }
 
+
    public void proteinSort() throws IOException{
+    
+    categoryFilterB.setText("protein");
     diary = false ; protein = true; snack = false; drink = false;
-    if (priceD) sort("WHERE category = 'protein foods' ORDER BY price DESC;");
-    else if(priceA) sort("WHERE category = 'protein foods' ORDER BY price ASC;");
-    else if(rateA) sort("WHERE category = 'protein foods' ORDER BY rate ASC;");
-    else if(rateD) sort("WHERE category = 'protein foods' ORDER BY rate DESC;");
-    else sort("WHERE category = 'protein foods';");
+    categorySort("protein foods");
    }
 
    public void snackSort() throws IOException{
+    
+    categoryFilterB.setText("snacks");
     diary = false ; protein = false; snack = true; drink = false;
-    if (priceD) sort("WHERE category = 'snacks' ORDER BY price DESC;");
-    else if(priceA) sort("WHERE category = 'snacks' ORDER BY price ASC;");
-    else if(rateA) sort("WHERE category = 'snacks' ORDER BY rate ASC;");
-    else if(rateD) sort("WHERE category = 'snacks' ORDER BY rate DESC;");
-    else sort("WHERE category = 'snacks';");
+    categorySort("snacks");
    }
 
    public void drinksSort() throws IOException{
+    
+    categoryFilterB.setText("drinks");
     diary = false ; protein = false; snack = false; drink = true;
-    if (priceD) sort("WHERE category = 'drinks' ORDER BY price DESC;");
-    else if(priceA) sort("WHERE category = 'drinks' ORDER BY price ASC;");
-    else if(rateA) sort("WHERE category = 'drinks' ORDER BY rate ASC;");
-    else if(rateD) sort("WHERE category = 'drinks' ORDER BY rate DESC;");
-    else sort("WHERE category = 'drinks';");
+    categorySort("drinks");
+   }
+
+
+
+   public void sortBySort(String sortBy) throws IOException{
+    String category = null , brand = null;
+
+    if(diary) category = "diary";
+    else if(protein) category = "protein foods";
+    else if(drink) category = "drinks";
+    else if(snack)category = "snacks";
+
+    if (brand1) brand = "brand1";
+    else if(brand2) brand = "brand2";
+    else if(brand3) brand = "brand3";
+    else if(brand4) brand = "brand4";
+
+    
+    if(brand != null && category == null) sort("WHERE brand = '"+ brand +"' ORDER BY " + sortBy+ ";");
+    else if(brand == null && category != null) sort(" WHERE category = '" + category +"' ORDER BY " +sortBy+ ";");
+    else if(brand == null && category == null) sort(" ORDER BY " +sortBy+ ";");
+    else if(brand != null && category != null) sort(" WHERE category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
    }
 
    public void priceDSort() throws IOException{
-     priceD = true ; priceA = false;  rateD = false;  rateA = false;
-
-    if (diary) sort("WHERE category = 'diary' ORDER BY price DESC;");
-    else if(protein) sort("WHERE category = 'protein foods' ORDER BY price DESC;");
-    else if(snack) sort("WHERE category = 'snacks' ORDER BY price DESC;");
-    else if(drink) sort("WHERE category = 'drinks'ORDER BY price DESC;");
-
-    else sort("ORDER BY price DESC;");
+    sortFilterB.setText("price descending");
+     priceD = true ; priceA = false;  rateD = false;  rateA = false; newest = false ; oldest = false;
+     sortBySort("price DESC");
 
    }
 
    public void priceASort() throws IOException{
+    
+    sortFilterB.setText("price ascending");
 
-    priceD = false ; priceA = true;  rateD = false;  rateA = false;
-
-    if (diary) sort("WHERE category = 'diary' ORDER BY price ASC;");
-    else if(protein) sort("WHERE category = 'protein foods' ORDER BY price ASC;");
-    else if(snack) sort("WHERE category = 'snack' ORDER BY price ASC;");
-    else if(drink) sort("WHERE category = 'drinks' ORDER BY price ASC;");
-    else sort("ORDER BY price ASC;");
-
+    priceD = false ; priceA = true;  rateD = false;  rateA = false; newest = false ; oldest = false;
+    
+    sortBySort("price ASC");
    }
    
    public void rateASort() throws IOException{
+    
+    sortFilterB.setText("rate ascending");
 
-    priceD = false ; priceA = false;  rateD = false;  rateA = true;
+    priceD = false ; priceA = false;  rateD = false;  rateA = true; newest = false ; oldest = false;
 
-    if (diary) sort("WHERE category = 'diary' ORDER BY rate ASC;");
-    else if(protein) sort("WHERE category = 'protein foods' ORDER BY rate ASC;");
-    else if(snack) sort("WHERE category = 'snack' ORDER BY rate ASC;");
-    else if(drink) sort("WHERE category = 'drinks' ORDER BY rate ASC;");
-    else sort("ORDER BY rate ASC;");
-
+    sortBySort("rate ASC");
    }
 
    public void rateDSort() throws IOException{
 
-    priceD = false ; priceA = false;  rateD = true;  rateA = false;
+    
+    sortFilterB.setText("rate descending");
 
-    if (diary) sort("WHERE category = 'diary' ORDER BY rate DESC;");
-    else if(protein) sort("WHERE category = 'protein foods' ORDER BY rate DESC;");
-    else if(snack) sort("WHERE category = 'snack' ORDER BY rate DESC;");
-    else if(drink) sort("WHERE category = 'drinks' ORDER BY rate DESC;");
-    else sort("ORDER BY rate DESC;");
+    priceD = false ; priceA = false;  rateD = true;  rateA = false; newest = false ; oldest = false;
+    sortBySort("rate DESC");
+   }
+
+   public void newestFilter() throws IOException{
+    
+    sortFilterB.setText("Newest first");
+
+    priceD = false ; priceA = false;  rateD = false;  rateA = false; newest = true ; oldest = false;
+
+    sortBySort("date DESC");
+   }
+
+   public void oldestFilter() throws IOException{
+
+    
+    sortFilterB.setText("Oldest first");
+
+    priceD = false ; priceA = false;  rateD = false;  rateA = false; newest = false ; oldest = true;
+    
+    sortBySort("date ASC");
 
    }
    
+
+   public void noSortFilterBYSORT() throws IOException{
+    
+    priceD = false ; priceA = false;  rateD = false;  rateA = false ; newest = false ; oldest = false;
+    sortFilterB.setText("no filter");
+    sortBySort("date DESC");
+
+   }
+
+   
+   public void Brand1() throws IOException{
+    brand1 = true; brand2 = false; brand3 = false; brand4 = false;
+    
+    brandFilterB.setText("brand1");
+    brandSort("brand1");
+   }
+
+   public void Brand2() throws IOException{
+    brand1 = false; brand2 = true; brand3 = false; brand4 = false;
+    
+    brandFilterB.setText("brand2");
+    brandSort("brand2");
+   }
+   public void Brand3() throws IOException{
+    brand1 = false; brand2 = false; brand3 = true; brand4 = false;
+    
+    brandFilterB.setText("brand3");
+    brandSort("brand3");
+   }
+   
+   public void Brand4() throws IOException{
+    brand1 = false; brand2 = false; brand3 = false; brand4 = true;
+    
+    brandFilterB.setText("brand4");
+    brandSort("brand4");
+   }
+
+   public void noFilterBrand() throws IOException{
+            
+    brand1 = false ; brand2 = false;  brand3 = false;  brand4 = false ;
+
+    String category = null , sortBy = null;
+
+    if(diary) category = "diary";
+    else if(protein) category = "protein foods";
+    else if(drink) category = "drinks";
+    else if(snack)category = "snacks";
+
+    if(priceA) sortBy = "price ASC";
+    else if(priceD) category = "price DESC";
+    else if(rateA) category = "rate ASC";
+    else if(rateD)category = "rate DESC";
+    else if(newest) category = "date DESC";
+    else if(oldest)category = "date ASC";
+    
+    if(category != null && sortBy == null) sort("WHERE category = '"+ category +"' ORDER BY date DESC;");
+    else if(category == null && sortBy != null) sort(" ORDER BY " +sortBy+ ";");
+    else if(category == null && sortBy == null) sort(" ORDER BY date DESC;");
+    else if(category != null && sortBy != null) sort(" WHERE category = '"+ category +"' ORDER BY " +sortBy+ ";");
+
+    brandFilterB.setText("no filter");
+   }
+
+   public void brandSort( String brand) throws IOException{
+    String category = null , sortBy = null;
+
+    if(diary) category = "diary";
+    else if(protein) category = "protein foods";
+    else if(drink) category = "drinks";
+    else if(snack)category = "snacks";
+
+    if(priceA) sortBy = "price ASC";
+    else if(priceD) category = "price DESC";
+    else if(rateA) category = "rate ASC";
+    else if(rateD)category = "rate DESC";
+    else if(newest) category = "date DESC";
+    else if(oldest)category = "date ASC";
+    
+    if(category != null && sortBy == null) sort("WHERE category = '"+ category +"' and brand = '" + brand +"' ORDER BY date DESC;");
+    else if(category == null && sortBy != null) sort(" WHERE brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+    else if(category == null && sortBy == null) sort(" WHERE brand = '" + brand +"' ORDER BY date DESC;");
+    else if(category != null && sortBy != null) sort(" WHERE category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+    
+   }
+
 
     void loading() throws IOException{
         Stage loadingstage = new Stage();
@@ -223,22 +390,47 @@ public class browserController {
     }
 
 
+    // RangeSlider slider1 = new RangeSlider(0, 100, 10, 90);
+    // //Setting the slider properties
+    // slider.setShowTickLabels(true);
+    // slider.setShowTickMarks(true);
+    // slider.setMajorTickUnit(25);
+    // slider.setBlockIncrement(10);
+    // //VBox to arrange circle and the slider
+    // VBox vbox = new VBox();
+    // vbox.setPadding(new Insets(75));
+    // vbox.setSpacing(150);
+    // vbox.getChildren().addAll(slider);
+
+    public void sliderController(){
+        // Slider slider = new Slider(0, 500, 0);
+        slider.setMin(0);
+        slider.setValue(0);
+        slider.setMax(500);
+
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(100);
+        slider.setBlockIncrement(50);
+        //Setting the width of the slider
+        slider.setMaxWidth(300);
+    }
 
     public void backToBrowse(){
-        // ClickSound.sound();
+        ClickSound.sound();
         tabpane.getSelectionModel().select(browseTab);
     }
 
 
     public void logout(){
-        // ClickSound.sound();
-        // try {
-        //     loading();
-        // } catch (IOException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
-        // LoginPage.stage.close();
+        ClickSound.sound();
+        try {
+            loading();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        LoginPage.stage.close();
         //open login window
     }
 }
