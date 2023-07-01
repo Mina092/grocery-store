@@ -125,11 +125,6 @@
                      </children></AnchorPane>
               </content>
             </Tab>
-            <Tab text="          help          ">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
           <Tab fx:id="logoutTab" text="          log out          ">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #b5b4b3;">
