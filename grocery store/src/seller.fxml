@@ -192,6 +192,51 @@
                   </AnchorPane>
               </content>
             </Tab>
+            <Tab text="          account          ">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #b5b4b3;">
+                     <children>
+                        <Text fill="WHITE" layoutX="543.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username: ">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="#ff7b1c" layoutX="663.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username ">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="#ff7b1c" layoutX="663.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="password">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="543.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="password:">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="620.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="seller" underline="true">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Button layoutX="590.0" layoutY="178.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="view cart" />
+                        <Text fill="#ff7b1c" layoutX="663.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="581.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wallet:">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Button layoutX="590.0" layoutY="279.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="increase" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </center>
