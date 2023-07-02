@@ -18,18 +18,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomePage.browserController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="browserController">
    <top>
       <AnchorPane prefHeight="134.0" prefWidth="1280.0" style="-fx-background-color: #272727;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="109.0" fitWidth="440.0" layoutX="39.0" layoutY="12.0">
                <image>
-                  <Image url="@../Resources/logo.png" />
+                  <Image url="@logo.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="55.0" fitWidth="46.0" layoutX="1148.0" layoutY="37.0" preserveRatio="true" style="-fx-cursor: hand;">
                <image>
-                  <Image url="@../Resources/carticon.png" />
+                  <Image url="@carticon.png" />
                </image>
             </ImageView>
             <Text fill="WHITE" layoutX="1162.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="18.46875">
@@ -47,9 +47,9 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="477.0" prefWidth="1280.0" style="-fx-background-color: #fcfcfc;">
                      <children>
-                        <AnchorPane prefHeight="559.0" prefWidth="271.0" style="-fx-background-color: #ec6f2d;">
+                        <AnchorPane layoutX="95.0" layoutY="125.0" prefHeight="559.0" prefWidth="271.0" style="-fx-background-color: #ec6f2d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                            <children>
-                              <MenuButton layoutX="18.0" layoutY="87.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" text="Categories">
+                              <MenuButton layoutX="16.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" text="Categories">
                                 <items>
                                     <MenuItem fx:id="all" mnemonicParsing="false" onAction="#allSort" text="all" />
                                   <MenuItem fx:id="diary" mnemonicParsing="false" onAction="#diarySort" text="dairy" />
@@ -58,20 +58,33 @@
                                     <MenuItem mnemonicParsing="false" onAction="#snackSort" text="snacks" />
                                 </items>
                               </MenuButton>
-                              <MenuButton layoutX="18.0" layoutY="141.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" text="Sort By :">
+                              <MenuButton layoutX="16.0" layoutY="139.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" text="Sort By :">
                                  <items>
                                     <MenuItem mnemonicParsing="false" onAction="#priceASort" text="Price: low to high" />
                                     <MenuItem mnemonicParsing="false" onAction="#priceDSort" text="Price: high to low" />
                                     <MenuItem mnemonicParsing="false" onAction="#rateASort" text="Rating: low to high" />
                                     <MenuItem mnemonicParsing="false" onAction="#rateDSort" text="Rating: high to low" />
+                                    <MenuItem mnemonicParsing="false" onAction="#newestFilter" text="Newest first" />
+                                    <MenuItem mnemonicParsing="false" onAction="#oldestFilter" text="Oldest first" />
                                  </items>
                               </MenuButton>
                               <ImageView fitHeight="200.0" fitWidth="137.0" layoutX="67.0" layoutY="396.0" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Resources/giphy%20(2).gif" />
+                                    <Image url="@giphy%20(2).gif" />
                                  </image>
                               </ImageView>
-                              <Slider layoutX="18.0" layoutY="213.0" prefWidth="231.0" />
+                              <Slider fx:id="slider" layoutX="18.0" layoutY="354.0" onDragDetected="#sliderController" prefWidth="231.0" />
+                              <Button fx:id="categoryFilterB" layoutX="16.0" layoutY="90.0" mnemonicParsing="false" onAction="#allSort" text="no filter" />
+                              <Button fx:id="sortFilterB" layoutX="16.0" layoutY="174.0" mnemonicParsing="false" onAction="#noSortFilterBYSORT" text="no filter" />
+                              <MenuButton layoutX="16.0" layoutY="223.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" text="Brand :">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#Brand1" text="Brand 1" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Brand2" text="Brand 2" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Brand3" text="Brand 3" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Brand4" text="Brand 4" />
+                                 </items>
+                              </MenuButton>
+                              <Button fx:id="brandFilterB" layoutX="16.0" layoutY="261.0" mnemonicParsing="false" onAction="#noFilterBrand" text="no filter" />
                            </children>
                         </AnchorPane>
                         <GridPane fx:id="gridPane" layoutX="316.0" layoutY="27.0" prefHeight="506.0" prefWidth="940.0">
@@ -101,17 +114,17 @@
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="332.0" layoutX="551.0" layoutY="64.0" stroke="#ec6f2d" strokeDashOffset="10.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="5.0" width="232.0" />
                         <ImageView fitHeight="59.0" fitWidth="49.0" layoutX="387.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Resources/email.png" />
+                              <Image url="@email.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="59.0" fitWidth="49.0" layoutX="645.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Resources/telephone.png" />
+                              <Image url="@telephone.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="55.0" fitWidth="59.0" layoutX="132.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Resources/location.png" />
+                              <Image url="@location.png" />
                            </image>
                         </ImageView>
                         <Text fill="WHITE" layoutX="75.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ferdowsi University of Mashhad : Razavi Khorasan Province, Mashhad, Azadi Square" wrappingWidth="179.16796875">
@@ -132,7 +145,7 @@
                      <children>
                         <ImageView fitHeight="422.0" fitWidth="383.0" layoutX="192.0" layoutY="107.0" preserveRatio="true">
                            <image>
-                              <Image url="@../Resources/giphy.gif" />
+                              <Image url="@giphy.gif" />
                            </image>
                         </ImageView>
                         <Text fill="WHITE" layoutX="553.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you sure you want to log out of your account?" wrappingWidth="388.13671875">
@@ -149,7 +162,7 @@
                            </font></Button>
                         <ImageView fx:id="loadergif" fitHeight="173.0" fitWidth="204.0" layoutX="941.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>
-                              <Image url="@../Resources/loader_dribble.gif" />
+                              <Image url="@loader_dribble.gif" />
                            </image></ImageView>
                      </children></AnchorPane>
             </content>

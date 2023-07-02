@@ -30,7 +30,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.zip.CRC32C;
 
-import Sounds.*;
+import sounds.*;
 public class LoginPage{
     public static String user, pass;
     public RadioButton customerRadioButton;

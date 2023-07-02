@@ -52,11 +52,7 @@ public class ClientManager implements Runnable{
                     toEmail = command.substring(6);
                     System.out.println("Sending email to: "+toEmail);
 					BankServer.send(BankServer.fromEmail, BankServer.password, toEmail,"Bank Payment","Your payment done Successfully.");
-<<<<<<< HEAD
-					
-=======
 					writer.println("1");
->>>>>>> add-folders
                     break;
 				}
 			}

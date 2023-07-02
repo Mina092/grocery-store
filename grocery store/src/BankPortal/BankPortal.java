@@ -7,11 +7,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
-<<<<<<< HEAD
-=======
 
 import ProductPage.PayPage;
->>>>>>> add-folders
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -201,12 +198,9 @@ public class BankPortal {
                             try {
                                 out.writeUTF(line);
                                 order = input.readInt();
-<<<<<<< HEAD
-=======
                                 if (order==1){
                                     PayPage.bankStage.close();
                                 }
->>>>>>> add-folders
                             } catch (IOException i) {
                                 System.out.println(i);
                             }
@@ -233,10 +227,6 @@ public class BankPortal {
     }
 
     public void clickCancel(){
-<<<<<<< HEAD
-
-=======
         PayPage.bankStage.close();
->>>>>>> add-folders
     }
 }

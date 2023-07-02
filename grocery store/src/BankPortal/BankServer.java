@@ -13,14 +13,7 @@ import javax.activation.*;
 public class BankServer {
 
     // initialize socket and input stream
-<<<<<<< HEAD
-    // private Socket socket = null;
     private ServerSocket server = null;
-    // private DataInputStream in = null;
-    // private ServerSocket mServer;
-=======
-    private ServerSocket server = null;
->>>>>>> add-folders
     private int serverPort = 9090;
     private ArrayList<Thread> threads = new ArrayList<Thread>();
     private HashMap<String, ClientManager> clientsMap = new HashMap<String, ClientManager>();
