@@ -3,6 +3,8 @@ import java.io.IOException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -120,15 +122,13 @@ public class InformationController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("payPage.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             
-        //     stage.setScene(new Scene(root));  
-        //     stage.show();
-        //     // stage.getIcons().add(new Image("storeicon.png"));
-        // }finally{
+            // stage.setScene(new Scene(root));  
+            // stage.show();
+            // // stage.getIcons().add(new Image("storeicon.png"));
+        }finally{
           
-        // }
-      }
-
-    
-}
+        }
+        }
+    }
 // TODO: 
 // save information
