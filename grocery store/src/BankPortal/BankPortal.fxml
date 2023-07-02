@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BankPortal.BankPortal">
+   <center>
+      <AnchorPane prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="600.0" stroke="BLACK" strokeType="INSIDE" width="800.0">
+               <fill>
+                  <LinearGradient endX="1.0" endY="0.11268939393939381" startY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.019999999552965164" green="0.6001234650611877" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.8962963223457336" green="0.9602469205856323" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Rectangle>
+            <Text fill="WHITE" layoutX="111.0" layoutY="307.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="113.33673095703125">
+               <font>
+                  <Font name="Bodoni MT" size="24.0" />
+               </font>
+            </Text>
+            <TextField fx:id="cardText" alignment="CENTER" layoutX="111.0" layoutY="127.0" prefHeight="43.0" prefWidth="333.0" promptText="---- / ---- / ---- / ----">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <Text fill="WHITE" layoutX="111.0" layoutY="108.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Number" wrappingWidth="144.5367431640625">
+               <font>
+                  <Font name="Bodoni MT" size="24.0" />
+               </font>
+            </Text>
+            <TextField fx:id="cVV2Text" alignment="CENTER" layoutX="111.0" layoutY="228.0" prefHeight="43.0" prefWidth="123.0" promptText="----" />
+            <Text fill="WHITE" layoutX="111.0" layoutY="211.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV2" wrappingWidth="94.13671875">
+               <font>
+                  <Font name="Bodoni MT" size="24.0" />
+               </font>
+            </Text>
+            <TextField fx:id="monthText" alignment="CENTER" layoutX="358.0" layoutY="228.0" prefHeight="43.0" prefWidth="85.0" promptText="MM" />
+            <Text fill="WHITE" layoutX="257.0" layoutY="211.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiry" wrappingWidth="81.60336303710938">
+               <font>
+                  <Font name="Bodoni MT" size="24.0" />
+               </font>
+            </Text>
+            <TextField fx:id="yearText" alignment="CENTER" layoutX="257.0" layoutY="228.0" prefHeight="43.0" prefWidth="85.0" promptText="YY" />
+            <TextField fx:id="emailField" layoutX="111.0" layoutY="420.0" prefHeight="43.0" prefWidth="333.0" promptText="username@gmail.com" />
+            <PasswordField fx:id="passwordField" alignment="CENTER" layoutX="111.0" layoutY="324.0" prefHeight="43.0" prefWidth="333.0" />
+            <Text fill="WHITE" layoutX="111.0" layoutY="403.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="62.93670654296875">
+               <font>
+                  <Font name="Bodoni MT" size="24.0" />
+               </font>
+            </Text>
+            <Button fx:id="confirm" layoutX="251.0" layoutY="485.0" mnemonicParsing="false" onMouseClicked="#clickConfirm" prefHeight="35.0" prefWidth="193.0" style="-fx-background-color: #4ceb34;" text="Submit" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="cancel" layoutX="111.0" layoutY="485.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="131.0" style="-fx-background-color: #fa0000;" text="Cancel" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT" size="18.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="205.0" fitWidth="325.0" layoutX="461.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/CreditCard.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="cardNumberLabel" layoutX="501.0" layoutY="219.0" prefHeight="39.0" prefWidth="232.0" text="----/----/----/----" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="expireDateLabel" layoutX="666.0" layoutY="275.0" text="--/--" textFill="WHITE" />
+            <Text fill="WHITE" layoutX="651.0" layoutY="271.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Expire Date" wrappingWidth="65.07003784179688">
+               <font>
+                  <Font name="Bodoni MT" size="12.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="517.0" layoutY="271.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV2" wrappingWidth="38.6700439453125">
+               <font>
+                  <Font name="Bodoni MT" size="12.0" />
+               </font>
+            </Text>
+            <Label fx:id="cvv2NumberLabel" layoutX="521.0" layoutY="275.0" text="---" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
