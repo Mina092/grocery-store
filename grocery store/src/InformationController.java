@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 
 
@@ -110,10 +112,13 @@ public class InformationController {
     @FXML
     public void nextPage (ActionEvent event)throws IOException{
 
-        System.out.println("HEYYY");
-        //     try {
-        //     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("payPage.fxml"));
-        //     Parent root = (Parent) fxmlLoader.load();
+            try {
+            Window window = addressText.getScene().getWindow();
+            Stage thisStage = (Stage) addressText.getScene().getWindow();
+            thisStage.hide();
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("payPage.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
             
         //     stage.setScene(new Scene(root));  
         //     stage.show();
@@ -125,7 +130,5 @@ public class InformationController {
 
     
 }
-// TODO: link to pay page
+// TODO: 
 // save information
-// check discount code
-// 
