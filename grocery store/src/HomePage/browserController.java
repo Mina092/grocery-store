@@ -4,8 +4,6 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
-import sounds.ClickSound;
-
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
@@ -421,13 +419,13 @@ public class browserController {
     }
 
     public void backToBrowse(){
-        ClickSound.sound();
+        //ClickSound.sound();
         tabpane.getSelectionModel().select(browseTab);
     }
 
 
     public void logout(){
-        ClickSound.sound();
+        //ClickSound.sound();
         try {
             loading();
         } catch (IOException e) {

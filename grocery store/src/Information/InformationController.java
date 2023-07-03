@@ -1,3 +1,5 @@
+package Information;
+
 import java.io.IOException;
 
 import javafx.application.Platform;
