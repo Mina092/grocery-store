@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -18,7 +24,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="browserController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="browserController">
    <top>
       <AnchorPane prefHeight="134.0" prefWidth="1280.0" style="-fx-background-color: #272727;" BorderPane.alignment="CENTER">
          <children>
@@ -134,11 +140,6 @@
                      </children></AnchorPane>
               </content>
             </Tab>
-            <Tab text="          help          ">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
           <Tab fx:id="logoutTab" text="          log out          ">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #b5b4b3;">
@@ -167,6 +168,51 @@
                      </children></AnchorPane>
             </content>
           </Tab>
+            <Tab text="          account          ">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #b5b4b3;">
+                     <children>
+                        <Text fill="WHITE" layoutX="543.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username: ">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="#ff7b1c" layoutX="663.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username ">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="#ff7b1c" layoutX="663.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="password">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="543.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="password:">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="601.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="customer" underline="true">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Button layoutX="590.0" layoutY="178.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="view cart" />
+                        <Text fill="#ff7b1c" layoutX="663.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="581.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wallet:">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Text>
+                        <Button layoutX="590.0" layoutY="279.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="increase" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </center>
