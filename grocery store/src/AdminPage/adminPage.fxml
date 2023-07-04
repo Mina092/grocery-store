@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminPage.AdminController">
+   <center>
+      <AnchorPane prefHeight="550.0" prefWidth="700.0">
+         <children>
+            <AnchorPane fx:id="financialReportPane" prefHeight="550.0" prefWidth="750.0" style="-fx-background-color: #9fffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <PieChart fx:id="pieChart" layoutX="83.0" layoutY="75.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="inventoryManagmentPane" prefHeight="550.0" prefWidth="750.0" style="-fx-background-color: #00fa00;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane fx:id="chatPane" prefHeight="550.0" prefWidth="700.0" style="-fx-background-color: #005cfa;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox prefHeight="550.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="550.0" prefWidth="100.0">
+                           <content>
+                              <TilePane fx:id="sellersChat" prefHeight="132.0" prefWidth="100.0" />
+                           </content>
+                        </ScrollPane>
+                        <AnchorPane fx:id="chatPane" prefHeight="550.0" prefWidth="600.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <AnchorPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #272727;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="113.0" fitWidth="426.0" layoutX="16.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/logo.png" />
+               </image>
+            </ImageView>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="550.0" prefWidth="150.0" style="-fx-background-color: #ec6f2d;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="financialReport" fitHeight="80.0" fitWidth="80.0" layoutX="28.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/report.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+            <ImageView fx:id="inventoryManagment" fitHeight="80.0" fitWidth="80.0" layoutX="35.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/inspection.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="chat" fitHeight="80.0" fitWidth="80.0" layoutX="30.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/chat.png" />
+               </image>
+            </ImageView>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+   </left>
+</BorderPane>
