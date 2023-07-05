@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import LoginScreen.LoginPage;
-import ProductPage.OneProuduct;
 
 import java.sql.Connection;
 
@@ -82,7 +81,9 @@ public class browserController {
                         if(result.next()){
                         name =result.getString(1);
                         price = result.getString(2); 
-                        rate = result.getString(3); 
+                        rate = result.getString(3);
+                        
+                        int max = Integer.parseInt(result.getString(8));
 
                         //test
                         // System.out.println(name+" " + price+" " + rate);
@@ -93,7 +94,7 @@ public class browserController {
                         Parent root = (Parent) loader.load(getClass().getResource("product.fxml").openStream());
                         OneProuduct controller = loader.getController();
                         
-                        controller.makeOneProuduct(price , name, Double.parseDouble(rate));
+                        OneProuduct product = controller.makeOneProuduct(price , name, Double.parseDouble(rate) , max);
                             //test
                         // System.out.println(name + " " + j +" "+ k);
                         GridPane.setRowIndex(controller.getHolePane(), j);

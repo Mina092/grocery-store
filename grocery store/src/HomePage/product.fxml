@@ -21,7 +21,7 @@
                      <children>
                         <Label fx:id="prouductName" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="1.0" prefHeight="38.0" prefWidth="104.0" style="-fx-border-color: rgb(102, 73, 24); -fx-border-radius: 10; -fx-border-width: 3;" text="product name" />
                         <Label fx:id="rate" alignment="CENTER" contentDisplay="CENTER" layoutX="70.0" layoutY="47.0" prefHeight="31.0" prefWidth="67.0" style="-fx-border-color: rgb(102, 73, 24); -fx-border-width: 3; -fx-border-radius: 10;" text="rate" />
-                        <Spinner layoutX="150.0" layoutY="7.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="64.0" prefWidth="56.0" />
+                        <Spinner fx:id="spinner" initialValue="0" layoutX="150.0" layoutY="7.0" min="0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="64.0" prefWidth="56.0" />
                         <Label fx:id="price" alignment="CENTER" contentDisplay="CENTER" layoutY="47.0" prefHeight="31.0" prefWidth="67.0" style="-fx-border-color: rgb(102, 73, 24); -fx-border-width: 3; -fx-border-radius: 10;" text="price" />
                      </children>
                   </AnchorPane>
