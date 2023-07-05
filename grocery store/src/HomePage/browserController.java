@@ -34,6 +34,9 @@ public class browserController {
     private Slider slider;
     
     @FXML
+    private ScrollPane scroller;
+    
+    @FXML
     public TabPane tabpane;
     public Tab logoutTab, browseTab;
     public Button logoutButton, backToBrowseButton;
@@ -42,14 +45,14 @@ public class browserController {
     @FXML
     private GridPane gridPane ;
 
-    boolean diary = false , protein = false, snack = false, drink = false;
+    boolean dairy = false , protein = false, snack = false, drink = false;
     boolean priceD = false , priceA = false,  rateD = false, rateA = false , newest = false ,oldest = false;
     boolean brand1 = false , brand2 = false , brand3 = false, brand4 = false;
 
     public void sort(String sortBy) throws IOException{
 
         //test
-        // System.out.println("diary" + diary);
+        // System.out.println("dairy" + dairy);
         // System.out.println("pro" + protein);
         // System.out.println("snack" + snack);
         // System.out.println("drink" + drink );
@@ -72,9 +75,9 @@ public class browserController {
 
             ResultSet result = statement.executeQuery(query);
 
-            String name, price, rate;
+            String name, price, rate , category;
             
-            for(int j=0 ; j< 2 ; j++){
+            for(int j=0 ; j< 8 ; j++){
                 for(int k=0 ; k< 4; k++){
                     
                     // while(result.next()){
@@ -82,32 +85,40 @@ public class browserController {
                         name =result.getString(1);
                         price = result.getString(2); 
                         rate = result.getString(3);
+                        category = result.getString(5);
                         
                         int max = Integer.parseInt(result.getString(8));
 
                         //test
                         // System.out.println(name+" " + price+" " + rate);
 
-
+                        
                         FXMLLoader loader = new FXMLLoader();
                         
-                        Parent root = (Parent) loader.load(getClass().getResource("product.fxml").openStream());
+                        loader.load(getClass().getResource("product.fxml").openStream());
                         OneProuduct controller = loader.getController();
                         
-                        OneProuduct product = controller.makeOneProuduct(price , name, Double.parseDouble(rate) , max);
+                        if (category.contains("protein"))  category = "protein foods";
+                        category = "src/" +category +".png";
+                        //test
+                        // System.out.println(category);
+                        controller.makeOneProuduct(price , name, Double.parseDouble(rate) , max , category);
                             //test
                         // System.out.println(name + " " + j +" "+ k);
-                        GridPane.setRowIndex(controller.getHolePane(), j);
-                        GridPane.setColumnIndex(controller.getHolePane(), k);
-
-
-                        gridPane.getChildren().addAll(controller.getHolePane());
+                        GridPane.setRowIndex(controller.getWholePane(), j);
+                        GridPane.setColumnIndex(controller.getWholePane(), k);
+                        
+                        
+                        gridPane.getChildren().addAll(controller.getWholePane());
                     }
                     else{
 
-                        for(  ; j< 2 ; j++){
-                            if(k==4 && j==1) k=0;
+                        for(  ; j< 8 ; j++){
+                            if((k==4 && j==1)|| (k==4 && j==2) || (k==4 && j==3) || (k==4 && j==4) || (k==4 && j==5) || (k==4 && j==6)) k=0;
                             for( ; k< 4; k++){
+
+                                // Node node = getNodeFromGridPane(gridPane, k, j) ;
+                                // node = null;
                                 AnchorPane pane = new AnchorPane(); 
                                 pane.setStyle("-fx-background-color : #fcfcfc;");
                                 GridPane.setRowIndex(pane, j);
@@ -118,8 +129,12 @@ public class browserController {
 
                         break;
                     }
+                      
                 }
             }
+            
+            scroller.setContent(gridPane);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -128,7 +143,7 @@ public class browserController {
    
    public void allSort() throws IOException{
 
-    diary = false ; protein = false; snack = false; drink = false;newest = false ; oldest = false;
+    dairy = false ; protein = false; snack = false; drink = false;newest = false ; oldest = false;
     categoryFilterB.setText("all (newest)");
     
     String sortBy = null , brand = null;
@@ -177,34 +192,34 @@ public class browserController {
 
    }
    
-   public void diarySort() throws IOException{
+   public void dairySort() throws IOException{
     
-    categoryFilterB.setText("diray");
+    categoryFilterB.setText("dairy");
 
-    diary = true ; protein = false; snack = false; drink = false;
+    dairy = true ; protein = false; snack = false; drink = false;
 
-    categorySort("diray");
+    categorySort("dairy");
    }
 
 
    public void proteinSort() throws IOException{
     
     categoryFilterB.setText("protein");
-    diary = false ; protein = true; snack = false; drink = false;
+    dairy = false ; protein = true; snack = false; drink = false;
     categorySort("protein foods");
    }
 
    public void snackSort() throws IOException{
     
     categoryFilterB.setText("snacks");
-    diary = false ; protein = false; snack = true; drink = false;
+    dairy = false ; protein = false; snack = true; drink = false;
     categorySort("snacks");
    }
 
    public void drinksSort() throws IOException{
     
     categoryFilterB.setText("drinks");
-    diary = false ; protein = false; snack = false; drink = true;
+    dairy = false ; protein = false; snack = false; drink = true;
     categorySort("drinks");
    }
 
@@ -213,7 +228,7 @@ public class browserController {
    public void sortBySort(String sortBy) throws IOException{
     String category = null , brand = null;
 
-    if(diary) category = "diary";
+    if(dairy) category = "dairy";
     else if(protein) category = "protein foods";
     else if(drink) category = "drinks";
     else if(snack)category = "snacks";
@@ -327,7 +342,7 @@ public class browserController {
 
     String category = null , sortBy = null;
 
-    if(diary) category = "diary";
+    if(dairy) category = "dairy";
     else if(protein) category = "protein foods";
     else if(drink) category = "drinks";
     else if(snack)category = "snacks";
@@ -350,7 +365,7 @@ public class browserController {
    public void brandSort( String brand) throws IOException{
     String category = null , sortBy = null;
 
-    if(diary) category = "diary";
+    if(dairy) category = "dairy";
     else if(protein) category = "protein foods";
     else if(drink) category = "drinks";
     else if(snack)category = "snacks";
