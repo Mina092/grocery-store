@@ -252,6 +252,78 @@
                   </AnchorPane>
                </content>
             </Tab>
+            <Tab text="          contact us          ">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #b5b4b3;">
+                     <children>
+                        <Pane layoutY="442.0" prefHeight="115.0" prefWidth="1280.0" style="-fx-background-color: #ec6f2d;" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="332.0" layoutX="44.0" layoutY="63.0" stroke="#ec6f2d" strokeDashOffset="10.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="5.0" width="232.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="332.0" layoutX="297.0" layoutY="64.0" stroke="#ec6f2d" strokeDashOffset="10.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="5.0" width="232.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="332.0" layoutX="551.0" layoutY="64.0" stroke="#ec6f2d" strokeDashOffset="10.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="5.0" width="232.0" />
+                        <ImageView fitHeight="59.0" fitWidth="49.0" layoutX="387.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@email.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="59.0" fitWidth="49.0" layoutX="645.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@telephone.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="55.0" fitWidth="59.0" layoutX="132.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@location.png" />
+                           </image>
+                        </ImageView>
+                        <Text fill="WHITE" layoutX="75.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ferdowsi University of Mashhad : Razavi Khorasan Province, Mashhad, Azadi Square" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="321.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mobina Mohammadi" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="321.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="mobinamohammadi.mh@gmail.com" underline="true" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="323.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="minajamshidi25tintin@gmail.com" underline="true" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="323.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mina Jamshidi" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="323.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="rezamansouri129@gmail.com" underline="true" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="323.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reza Mansouri" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="579.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" 051 3880 5000" underline="true" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="579.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ferdowsi university of mashhad" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </center>

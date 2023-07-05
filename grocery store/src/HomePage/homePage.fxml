@@ -137,6 +137,46 @@
                            <font>
                               <Font size="16.0" />
                            </font></Text>
+                        <Text fill="WHITE" layoutX="321.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mobina Mohammadi" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="321.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="mobinamohammadi.mh@gmail.com" underline="true" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="323.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="minajamshidi25tintin@gmail.com" underline="true" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="323.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mina Jamshidi" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="323.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="rezamansouri129@gmail.com" underline="true" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="323.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reza Mansouri" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="579.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" 051 3880 5000" underline="true" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="579.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ferdowsi university of mashhad" wrappingWidth="179.16796875">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
                      </children></AnchorPane>
               </content>
             </Tab>
