@@ -94,7 +94,7 @@ public class LoginPage{
       else return 1;
     }
     public static Stage stage = new Stage();
-    void stage2() throws IOException{
+    void stage2customer() throws IOException{
           try {
           
         //   FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoginScreen/Demo.fxml"));
@@ -108,6 +108,34 @@ public class LoginPage{
         
       }
     }
+    void stage2seller() throws IOException{
+        try {
+        
+      //   FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoginScreen/Demo.fxml"));
+      //   Parent root1 = (Parent) fxmlLoader.load();
+
+        Parent root1 = FXMLLoader.load(getClass().getResource("/HomePage/homePage Sellers.fxml"));
+        stage.setScene(new Scene(root1));  
+        stage.show();
+        stage.getIcons().add(new Image("/Resources/storeicon.png"));
+    }finally{
+      
+    }
+  }
+  void stage2admin() throws IOException{
+      try {
+          
+        //   FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoginScreen/Demo.fxml"));
+        //   Parent root1 = (Parent) fxmlLoader.load();
+
+          Parent root1 = FXMLLoader.load(getClass().getResource("/AdminPage/adminPage.fxml"));
+          stage.setScene(new Scene(root1));  
+          stage.show();
+          stage.getIcons().add(new Image("/Resources/storeicon.png"));
+      }finally{
+        
+      }
+  }
     void signupCustomer(String user, String pass){
       try {
         BufferedWriter output = new BufferedWriter(new FileWriter("src/LoginScreen/customers.txt", true));
@@ -228,7 +256,7 @@ public class LoginPage{
                 System.out.print("yes whale"); 
                 //close login window
                 try {
-                    stage2();
+                    stage2customer();
                 } catch (IOException e) {
                   // TODO Auto-generated catch block
                   e.printStackTrace();
@@ -239,7 +267,7 @@ public class LoginPage{
                 System.out.print("yes whale");
                 //close login window
                 try {
-                  stage2();
+                  stage2admin();
                 } catch (IOException e) {
                   // TODO Auto-generated catch block
                   e.printStackTrace();
@@ -250,7 +278,7 @@ public class LoginPage{
                 System.out.print("yes whale");
                 //close login window
                 try {
-                  stage2();
+                  stage2seller();
                 } catch (IOException e) {
                   // TODO Auto-generated catch block
                   e.printStackTrace();
