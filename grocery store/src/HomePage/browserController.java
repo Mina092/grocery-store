@@ -63,6 +63,14 @@ public class browserController implements Initializable {
     // @FXML
     private GridPane gridPane ;
 
+    
+    @FXML
+    RangeSlider slider;
+    
+    double lowValue = 0  , highValue = 500 ;
+    
+    String rangePrice = ("WHERE price BETWEEN "+ lowValue + " AND " + highValue);
+
     @FXML
     public Text accUser, accPass;
 
@@ -349,6 +357,7 @@ public class browserController implements Initializable {
     brandFilterB.setText("brand2");
     brandSort("brand2");
    }
+   
    public void Brand3() throws IOException{
     brand1 = false; brand2 = false; brand3 = true; brand4 = false;
     
@@ -412,6 +421,114 @@ public class browserController implements Initializable {
    }
 
 
+    
+    public void sortByRangePrice() throws IOException{
+
+        String category = null , brand = null , sortBy = null;
+    
+        if(dairy) category = "dairy";
+        else if(protein) category = "protein foods";
+        else if(drink) category = "drinks";
+        else if(snack)category = "snacks";
+    
+        if (brand1) brand = "brand1";
+        else if(brand2) brand = "brand2";
+        else if(brand3) brand = "brand3";
+        else if(brand4) brand = "brand4";
+
+        if(priceA) sortBy = "price ASC";
+        else if(priceD) sortBy = "price DESC";
+        else if(rateA) sortBy = "rate ASC";
+        else if(rateD)sortBy = "rate DESC";
+        else if(newest) sortBy = "date DESC";
+        else if(oldest)sortBy = "date ASC";
+        
+        if(brand != null && category == null && sortBy != null) sort(rangePrice + "AND brand = '"+ brand +"' ORDER BY " + sortBy+ ";");
+        else if(brand == null && category == null && sortBy != null) sort(rangePrice +  " ORDER BY " +sortBy+ ";");
+        else if(brand != null && category != null && sortBy != null) sort(rangePrice +  "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+        else if(brand == null && category != null && sortBy != null) sort(rangePrice + "AND category = '" + category +"' ORDER BY " +sortBy+ ";");
+        
+        if(brand != null && category == null && sortBy == null) sort(rangePrice + "AND brand = '"+ brand +"' ORDER BY date DESC ;");
+        else if(brand == null && category == null && sortBy == null) sort(rangePrice +  " ORDER BY " +sortBy+ ";");
+        else if(brand != null && category != null && sortBy == null) sort(rangePrice +  "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY date DESC ;");
+        else if(brand == null && category != null && sortBy == null) sort(rangePrice + "AND category = '" + category +"' ORDER BY date DESC ;");
+    }
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            allSort();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+            
+        slider = new RangeSlider(0 , 500 , 0 , 500);
+
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(50);
+        slider.setBlockIncrement(2);
+        slider.setPrefWidth(250);
+
+        // VBox to arrange circle and the slider
+        VBox vbox = new VBox();
+        vbox.setLayoutX(10);
+        vbox.setLayoutY(310);
+        // vbox.setPrefWidth(200);
+        // vbox.setPadding(new Insets(75));
+        vbox.setSpacing(150);
+        vbox.getChildren().addAll(slider);
+
+        barPane.getChildren().addAll(vbox);
+        
+        slider.highValueProperty().addListener( new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
+                highValue = (double) newValue;
+                
+                //test
+                // System.out.println(lowValue + "  " + highValue);
+
+                DecimalFormat df = new DecimalFormat("#.##");      
+                highValue = Double.valueOf(df.format(highValue));
+                
+                rangePrice = ("WHERE price BETWEEN "+ lowValue + " AND " + highValue);
+                priceText.setText("FROM " + lowValue + " TO " + highValue);
+                try {
+                    sortByRangePrice();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+         });
+         slider.lowValueProperty().addListener( new ChangeListener<Number>() {
+            @Override
+           public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
+               
+               lowValue = (double) newValue;
+               //test
+            //    System.out.println(lowValue + "  " + highValue);
+
+               DecimalFormat df = new DecimalFormat("#.##");      
+               lowValue = Double.valueOf(df.format(lowValue));
+               
+            rangePrice = ("WHERE price BETWEEN "+ lowValue + " AND " + highValue);
+            priceText.setText("FROM " + lowValue + " TO " + highValue);
+
+               try {
+                sortByRangePrice();
+               } catch (IOException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               }
+           }
+        });
+
+    }
+
+    
     void loading() throws IOException{
         Stage loadingstage = new Stage();
         try {
@@ -446,110 +563,5 @@ public class browserController implements Initializable {
         ClickSound.sound();
         LoginPage.stage.close();
         //open login window
-    }
-    
-    public void sortByRangePrice() throws IOException{
-
-        String category = null , brand = null , sortBy = null;
-    
-        if(dairy) category = "dairy";
-        else if(protein) category = "protein foods";
-        else if(drink) category = "drinks";
-        else if(snack)category = "snacks";
-    
-        if (brand1) brand = "brand1";
-        else if(brand2) brand = "brand2";
-        else if(brand3) brand = "brand3";
-        else if(brand4) brand = "brand4";
-
-        if(priceA) sortBy = "price ASC";
-        else if(priceD) sortBy = "price DESC";
-        else if(rateA) sortBy = "rate ASC";
-        else if(rateD)sortBy = "rate DESC";
-        else if(newest) sortBy = "date DESC";
-        else if(oldest)sortBy = "date ASC";
-        
-        if(brand != null && category == null && sortBy != null) sort(rangePrice + "AND brand = '"+ brand +"' ORDER BY " + sortBy+ ";");
-        else if(brand == null && category == null && sortBy != null) sort(rangePrice +  " ORDER BY " +sortBy+ ";");
-        else if(brand != null && category != null && sortBy != null) sort(rangePrice +  "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
-        else if(brand == null && category != null && sortBy != null) sort(rangePrice + "AND category = '" + category +"' ORDER BY " +sortBy+ ";");
-        
-        if(brand != null && category == null && sortBy == null) sort(rangePrice + "AND brand = '"+ brand +"' ORDER BY date DESC ;");
-        else if(brand == null && category == null && sortBy == null) sort(rangePrice +  " ORDER BY " +sortBy+ ";");
-        else if(brand != null && category != null && sortBy == null) sort(rangePrice +  "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY date DESC ;");
-        else if(brand == null && category != null && sortBy == null) sort(rangePrice + "AND category = '" + category +"' ORDER BY date DESC ;");
-    }
-    
-    @FXML
-    RangeSlider slider;
-    double lowValue = 0, highValue = 500;
-    
-    String rangePrice = ("WHERE price BETWEEN "+ lowValue + " AND " + highValue);
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        try {
-            allSort();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-            
-        slider = new RangeSlider(0, 500, 0, 500);
-
-        //Setting the slider properties
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(50);
-        slider.setBlockIncrement(2);
-        slider.setPrefWidth(250);
-
-        // VBox to arrange circle and the slider
-        VBox vbox = new VBox();
-        vbox.setLayoutX(10);
-        vbox.setLayoutY(310);
-        // vbox.setPrefWidth(200);
-        // vbox.setPadding(new Insets(75));
-        vbox.setSpacing(150);
-        vbox.getChildren().addAll(slider);
-
-        barPane.getChildren().addAll(vbox);
-        
-        slider.highValueProperty().addListener( new ChangeListener<Number>() {
-             @Override
-            public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
-
-                double highValue = (double) newValue;
-                DecimalFormat df = new DecimalFormat("#.##");      
-                highValue = Double.valueOf(df.format(highValue));
-                rangePrice = ("WHERE price BETWEEN "+ lowValue + " AND " + highValue);
-                priceText.setText("FROM " + lowValue + " TO " + highValue);
-                try {
-                    sortByRangePrice();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-         });
-         slider.lowValueProperty().addListener( new ChangeListener<Number>() {
-            @Override
-           public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
-
-            double lowValue = (double) newValue;
-            DecimalFormat df = new DecimalFormat("#.##");      
-            lowValue = Double.valueOf(df.format(lowValue));
-
-            rangePrice = ("WHERE price BETWEEN "+ lowValue + " AND " + highValue);
-            priceText.setText("FROM " + lowValue + " TO " + highValue);
-
-               try {
-                sortByRangePrice();
-               } catch (IOException e) {
-                   // TODO Auto-generated catch block
-                   e.printStackTrace();
-               }
-           }
-        });
-
     }
 }
