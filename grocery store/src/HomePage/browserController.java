@@ -1,5 +1,8 @@
 package HomePage;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.*;
@@ -18,6 +21,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -46,6 +50,9 @@ public class browserController implements Initializable {
 
     @FXML
     private AnchorPane barPane;
+    
+    @FXML
+    private Text priceText;
 
     @FXML
     public TabPane tabpane;
@@ -83,6 +90,9 @@ public class browserController implements Initializable {
         String password = "gh991067m";
         String url = "jdbc:mysql://localhost:3306/groceryStore";
         String query = "SELECT * FROM products " + sortBy ;
+
+        //test
+        // System.out.println(query);
 
 
         try{
@@ -179,10 +189,10 @@ public class browserController implements Initializable {
     else if(brand3) brand = "brand3";
     else if(brand4) brand = "brand4";
     
-    if(brand != null && sortBy == null) sort("WHERE brand = '"+ brand +"' ordered by date DESC;");
-    else if(brand == null && sortBy != null) sort(" ORDER BY " +sortBy+ ";");
-    else if(brand == null && sortBy == null) sort(" ORDER BY date DESC;");
-    else if(brand != null && sortBy != null) sort(" and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+    if(brand != null && sortBy == null) sort(rangePrice + "AND brand = '"+ brand +"' ordered by date DESC;");
+    else if(brand == null && sortBy != null) sort(rangePrice + " ORDER BY " +sortBy+ ";");
+    else if(brand == null && sortBy == null) sort(rangePrice + " ORDER BY date DESC;");
+    else if(brand != null && sortBy != null) sort(rangePrice + " and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
    }
 
    public void categorySort(String category) throws IOException{
@@ -202,10 +212,10 @@ public class browserController implements Initializable {
     else if(brand3) brand = "brand3";
     else if(brand4) brand = "brand4";
     
-    if(brand != null && sortBy == null) sort("WHERE category = '"+ category +"' and brand = '" + brand +"' ordered by date DESC;");
-    else if(brand == null && sortBy != null) sort(" WHERE category = '" + category +"' ORDER BY " +sortBy+ ";");
-    else if(brand == null && sortBy == null) sort(" WHERE category = '" + category +"' ORDER BY date DESC;");
-    else if(brand != null && sortBy != null) sort(" WHERE category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+    if(brand != null && sortBy == null) sort(rangePrice + "AND category = '"+ category +"' and brand = '" + brand +"' ordered by date DESC;");
+    else if(brand == null && sortBy != null) sort(rangePrice + "AND category = '" + category +"' ORDER BY " +sortBy+ ";");
+    else if(brand == null && sortBy == null) sort(rangePrice + "AND category = '" + category +"' ORDER BY date DESC;");
+    else if(brand != null && sortBy != null) sort(rangePrice + "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
 
    }
    
@@ -256,10 +266,10 @@ public class browserController implements Initializable {
     else if(brand4) brand = "brand4";
 
     
-    if(brand != null && category == null) sort("WHERE brand = '"+ brand +"' ORDER BY " + sortBy+ ";");
-    else if(brand == null && category != null) sort(" WHERE category = '" + category +"' ORDER BY " +sortBy+ ";");
-    else if(brand == null && category == null) sort(" ORDER BY " +sortBy+ ";");
-    else if(brand != null && category != null) sort(" WHERE category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+    if(brand != null && category == null) sort(rangePrice + "AND brand = '"+ brand +"' ORDER BY " + sortBy+ ";");
+    else if(brand == null && category != null) sort(rangePrice + "AND category = '" + category +"' ORDER BY " +sortBy+ ";");
+    else if(brand == null && category == null) sort(rangePrice + " ORDER BY " +sortBy+ ";");
+    else if(brand != null && category != null) sort(rangePrice + "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
    }
 
    public void priceDSort() throws IOException{
@@ -371,10 +381,10 @@ public class browserController implements Initializable {
     else if(newest) sortBy = "date DESC";
     else if(oldest)sortBy = "date ASC";
     
-    if(category != null && sortBy == null) sort("WHERE category = '"+ category +"' ORDER BY date DESC;");
-    else if(category == null && sortBy != null) sort(" ORDER BY " +sortBy+ ";");
-    else if(category == null && sortBy == null) sort(" ORDER BY date DESC;");
-    else if(category != null && sortBy != null) sort(" WHERE category = '"+ category +"' ORDER BY " +sortBy+ ";");
+    if(category != null && sortBy == null) sort(rangePrice + "AND category = '"+ category +"' ORDER BY date DESC;");
+    else if(category == null && sortBy != null) sort(rangePrice + " ORDER BY " +sortBy+ ";");
+    else if(category == null && sortBy == null) sort(rangePrice + " ORDER BY date DESC;");
+    else if(category != null && sortBy != null) sort(rangePrice + "AND category = '"+ category +"' ORDER BY " +sortBy+ ";");
 
     brandFilterB.setText("no filter");
    }
@@ -394,10 +404,10 @@ public class browserController implements Initializable {
     else if(newest) sortBy = "date DESC";
     else if(oldest)sortBy = "date ASC";
     
-    if(category != null && sortBy == null) sort("WHERE category = '"+ category +"' and brand = '" + brand +"' ORDER BY date DESC;");
-    else if(category == null && sortBy != null) sort(" WHERE brand = '" + brand +"' ORDER BY " +sortBy+ ";");
-    else if(category == null && sortBy == null) sort(" WHERE brand = '" + brand +"' ORDER BY date DESC;");
-    else if(category != null && sortBy != null) sort(" WHERE category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+    if(category != null && sortBy == null) sort(rangePrice + "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY date DESC;");
+    else if(category == null && sortBy != null) sort(rangePrice + "AND brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+    else if(category == null && sortBy == null) sort(rangePrice + "AND brand = '" + brand +"' ORDER BY date DESC;");
+    else if(category != null && sortBy != null) sort(rangePrice + "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
     
    }
 
@@ -438,13 +448,54 @@ public class browserController implements Initializable {
         //open login window
     }
     
+    public void sortByRangePrice() throws IOException{
+
+        String category = null , brand = null , sortBy = null;
+    
+        if(dairy) category = "dairy";
+        else if(protein) category = "protein foods";
+        else if(drink) category = "drinks";
+        else if(snack)category = "snacks";
+    
+        if (brand1) brand = "brand1";
+        else if(brand2) brand = "brand2";
+        else if(brand3) brand = "brand3";
+        else if(brand4) brand = "brand4";
+
+        if(priceA) sortBy = "price ASC";
+        else if(priceD) sortBy = "price DESC";
+        else if(rateA) sortBy = "rate ASC";
+        else if(rateD)sortBy = "rate DESC";
+        else if(newest) sortBy = "date DESC";
+        else if(oldest)sortBy = "date ASC";
+        
+        if(brand != null && category == null && sortBy != null) sort(rangePrice + "AND brand = '"+ brand +"' ORDER BY " + sortBy+ ";");
+        else if(brand == null && category == null && sortBy != null) sort(rangePrice +  " ORDER BY " +sortBy+ ";");
+        else if(brand != null && category != null && sortBy != null) sort(rangePrice +  "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY " +sortBy+ ";");
+        else if(brand == null && category != null && sortBy != null) sort(rangePrice + "AND category = '" + category +"' ORDER BY " +sortBy+ ";");
+        
+        if(brand != null && category == null && sortBy == null) sort(rangePrice + "AND brand = '"+ brand +"' ORDER BY date DESC ;");
+        else if(brand == null && category == null && sortBy == null) sort(rangePrice +  " ORDER BY " +sortBy+ ";");
+        else if(brand != null && category != null && sortBy == null) sort(rangePrice +  "AND category = '"+ category +"' and brand = '" + brand +"' ORDER BY date DESC ;");
+        else if(brand == null && category != null && sortBy == null) sort(rangePrice + "AND category = '" + category +"' ORDER BY date DESC ;");
+    }
+    
     @FXML
     RangeSlider slider;
+    double lowValue = 0, highValue = 500;
     
+    String rangePrice = ("WHERE price BETWEEN "+ lowValue + " AND " + highValue);
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            allSort();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
             
         slider = new RangeSlider(0, 500, 0, 500);
+
         //Setting the slider properties
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
@@ -455,13 +506,50 @@ public class browserController implements Initializable {
         // VBox to arrange circle and the slider
         VBox vbox = new VBox();
         vbox.setLayoutX(10);
-        vbox.setLayoutY(300);
+        vbox.setLayoutY(310);
         // vbox.setPrefWidth(200);
         // vbox.setPadding(new Insets(75));
         vbox.setSpacing(150);
         vbox.getChildren().addAll(slider);
 
         barPane.getChildren().addAll(vbox);
+        
+        slider.highValueProperty().addListener( new ChangeListener<Number>() {
+             @Override
+            public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
+
+                double highValue = (double) newValue;
+                DecimalFormat df = new DecimalFormat("#.##");      
+                highValue = Double.valueOf(df.format(highValue));
+                rangePrice = ("WHERE price BETWEEN "+ lowValue + " AND " + highValue);
+                priceText.setText("FROM " + lowValue + " TO " + highValue);
+                try {
+                    sortByRangePrice();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+         });
+         slider.lowValueProperty().addListener( new ChangeListener<Number>() {
+            @Override
+           public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
+
+            double lowValue = (double) newValue;
+            DecimalFormat df = new DecimalFormat("#.##");      
+            lowValue = Double.valueOf(df.format(lowValue));
+
+            rangePrice = ("WHERE price BETWEEN "+ lowValue + " AND " + highValue);
+            priceText.setText("FROM " + lowValue + " TO " + highValue);
+
+               try {
+                sortByRangePrice();
+               } catch (IOException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               }
+           }
+        });
 
     }
 }

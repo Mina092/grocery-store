@@ -81,6 +81,11 @@
                                  </items>
                               </MenuButton>
                               <Button fx:id="brandFilterB" layoutX="16.0" layoutY="261.0" mnemonicParsing="false" onAction="#noFilterBrand" text="no filter" />
+                              <Text fx:id="priceText" fill="#1e1d1d" layoutX="5.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: CENTER;" text="FROM 0 TO 500" textOrigin="CENTER" wrappingWidth="257.4296875">
+                                 <font>
+                                    <Font name="Dubai Regular" size="18.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                         <ScrollPane fx:id="scroller" layoutX="271.0" layoutY="2.0" prefHeight="553.0" prefWidth="995.0" />
