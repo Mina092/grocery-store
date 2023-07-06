@@ -134,7 +134,7 @@ public class browserController implements Initializable {
 
                 FXMLLoader loader = new FXMLLoader();
                 
-                loader.load(getClass().getResource("product.fxml").openStream());
+                loader.load(getClass().getResource("HomePage\\product.fxml").openStream());
                 OneProuduct controller = loader.getController();
                 
                 if (category.contains("protein"))  category = "protein foods";
