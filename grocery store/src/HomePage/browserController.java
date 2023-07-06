@@ -132,19 +132,20 @@ public class browserController implements Initializable {
                 tedad = (int) (theItem.get(4));
                 tmpCount++;
 
-                FXMLLoader loader = new FXMLLoader();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("product.fxml"));
                 
-                loader.load(getClass().getResource("HomePage\\product.fxml").openStream());
+                Parent root = loader.load();
+                // Parent root = (Parent) loader.load(getClass().getResource("product.fxml"));
+                
                 OneProuduct controller = loader.getController();
-                
                 if (category.contains("protein"))  category = "protein foods";
-                category = "src/" +category +".png";
+                category = "src/Resources/" +category +".png";
                 //test
                 // System.out.println(category);
-                controller.makeOneProuduct(price , name, Double.parseDouble(rate) , tedad , category);
+                OneProuduct product = controller.makeOneProuduct(price , name, Double.parseDouble(rate) , tedad , category);
                     //test
                 // System.out.println(name + " " + j +" "+ k);
-                gridPane.add(controller.getWholePane(), k, j);
+                gridPane.add(product.getWholePane(), k, j);
                 
             }
         }
@@ -364,11 +365,11 @@ public class browserController implements Initializable {
     else if(snack)category = "snacks";
 
     if(priceA) sortBy = "price ASC";
-    else if(priceD) category = "price DESC";
-    else if(rateA) category = "rate ASC";
-    else if(rateD)category = "rate DESC";
-    else if(newest) category = "date DESC";
-    else if(oldest)category = "date ASC";
+    else if(priceD) sortBy = "price DESC";
+    else if(rateA) sortBy = "rate ASC";
+    else if(rateD)sortBy = "rate DESC";
+    else if(newest) sortBy = "date DESC";
+    else if(oldest)sortBy = "date ASC";
     
     if(category != null && sortBy == null) sort("WHERE category = '"+ category +"' ORDER BY date DESC;");
     else if(category == null && sortBy != null) sort(" ORDER BY " +sortBy+ ";");
@@ -387,11 +388,11 @@ public class browserController implements Initializable {
     else if(snack)category = "snacks";
 
     if(priceA) sortBy = "price ASC";
-    else if(priceD) category = "price DESC";
-    else if(rateA) category = "rate ASC";
-    else if(rateD)category = "rate DESC";
-    else if(newest) category = "date DESC";
-    else if(oldest)category = "date ASC";
+    else if(priceD) sortBy = "price DESC";
+    else if(rateA) sortBy = "rate ASC";
+    else if(rateD)sortBy = "rate DESC";
+    else if(newest) sortBy = "date DESC";
+    else if(oldest)sortBy = "date ASC";
     
     if(category != null && sortBy == null) sort("WHERE category = '"+ category +"' and brand = '" + brand +"' ORDER BY date DESC;");
     else if(category == null && sortBy != null) sort(" WHERE brand = '" + brand +"' ORDER BY " +sortBy+ ";");
