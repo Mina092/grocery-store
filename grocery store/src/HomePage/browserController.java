@@ -1,8 +1,11 @@
+package HomePage;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.*;
 import java.io.IOException;
 
@@ -44,6 +47,15 @@ public class browserController {
     
     @FXML
     private GridPane gridPane ;
+
+    @FXML
+    public Text accUser, accPass;
+
+    @FXML
+    public void initialize(){
+        accUser.setText(LoginPage.user);
+        accPass.setText(LoginPage.pass);
+    }
 
     boolean dairy = false , protein = false, snack = false, drink = false;
     boolean priceD = false , priceA = false,  rateD = false, rateA = false , newest = false ,oldest = false;
@@ -102,14 +114,14 @@ public class browserController {
                         category = "src/" +category +".png";
                         //test
                         // System.out.println(category);
-                        controller.makeOneProuduct(price , name, Double.parseDouble(rate) , max , category);
+                        // controller.makeOneProuduct(price , name, Double.parseDouble(rate) , max , category);
                             //test
                         // System.out.println(name + " " + j +" "+ k);
-                        GridPane.setRowIndex(controller.getWholePane(), j);
-                        GridPane.setColumnIndex(controller.getWholePane(), k);
+                        // GridPane.setRowIndex(controller.getWholePane(), j);
+                        // GridPane.setColumnIndex(controller.getWholePane(), k);
                         
                         
-                        gridPane.getChildren().addAll(controller.getWholePane());
+                        // gridPane.getChildren().addAll(controller.getWholePane());
                     }
                     else{
 

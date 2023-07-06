@@ -114,7 +114,7 @@ public class LoginPage{
       //   FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoginScreen/Demo.fxml"));
       //   Parent root1 = (Parent) fxmlLoader.load();
 
-        Parent root1 = FXMLLoader.load(getClass().getResource("/HomePage/homePage Sellers.fxml"));
+        Parent root1 = FXMLLoader.load(getClass().getResource("/HomePage/homePage Seller.fxml"));
         stage.setScene(new Scene(root1));  
         stage.show();
         stage.getIcons().add(new Image("/Resources/storeicon.png"));

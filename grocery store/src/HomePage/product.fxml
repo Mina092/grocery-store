@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="holePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="236.0" style="-fx-background-color: #fcfcfc;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OneProuduct">
+<AnchorPane fx:id="holePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="236.0" style="-fx-background-color: #fcfcfc;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomePage.OneProuduct">
    <children>
       <AnchorPane layoutX="45.0" layoutY="8.0" prefHeight="128.0" prefWidth="128.0" style="-fx-border-color: rgb(102, 73, 24); -fx-border-radius: 20; -fx-border-width: 3;">
          <children>
