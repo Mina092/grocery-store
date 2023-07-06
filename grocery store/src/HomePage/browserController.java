@@ -8,22 +8,28 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.*;
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.fxml.FXMLLoader;
-
-
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import org.controlsfx.control.RangeSlider;
+
+import HomePage.OneProuduct;
 import LoginScreen.LoginPage;
 
 import java.sql.Connection;
 
 
-public class browserController {
+public class browserController implements Initializable {
 
     @FXML
     private Button categoryFilterB;
@@ -33,24 +39,26 @@ public class browserController {
         
     @FXML
     private Button brandFilterB;
-    @FXML
-    private Slider slider;
     
     @FXML
     private ScrollPane scroller;
-    
+
+    @FXML
+    private AnchorPane barPane;
+
     @FXML
     public TabPane tabpane;
     public Tab logoutTab, browseTab;
     public Button logoutButton, backToBrowseButton;
 
     
-    @FXML
+    // @FXML
     private GridPane gridPane ;
 
     @FXML
     public Text accUser, accPass;
 
+    //check
     @FXML
     public void initialize(){
         accUser.setText(LoginPage.user);
@@ -88,64 +96,59 @@ public class browserController {
             ResultSet result = statement.executeQuery(query);
 
             String name, price, rate , category;
+            int tedad;
+            ArrayList queried_data = new ArrayList<>();
             
-            for(int j=0 ; j< 8 ; j++){
-                for(int k=0 ; k< 4; k++){
-                    
-                    // while(result.next()){
-                        if(result.next()){
-                        name =result.getString(1);
-                        price = result.getString(2); 
-                        rate = result.getString(3);
-                        category = result.getString(5);
-                        
-                        int max = Integer.parseInt(result.getString(8));
-
-                        //test
-                        // System.out.println(name+" " + price+" " + rate);
-
-                        
-                        FXMLLoader loader = new FXMLLoader();
-                        
-                        loader.load(getClass().getResource("product.fxml").openStream());
-                        OneProuduct controller = loader.getController();
-                        
-                        if (category.contains("protein"))  category = "protein foods";
-                        category = "src/" +category +".png";
-                        //test
-                        // System.out.println(category);
-                        // controller.makeOneProuduct(price , name, Double.parseDouble(rate) , max , category);
-                            //test
-                        // System.out.println(name + " " + j +" "+ k);
-                        // GridPane.setRowIndex(controller.getWholePane(), j);
-                        // GridPane.setColumnIndex(controller.getWholePane(), k);
-                        
-                        
-                        // gridPane.getChildren().addAll(controller.getWholePane());
-                    }
-                    else{
-
-                        for(  ; j< 8 ; j++){
-                            if((k==4 && j==1)|| (k==4 && j==2) || (k==4 && j==3) || (k==4 && j==4) || (k==4 && j==5) || (k==4 && j==6)) k=0;
-                            for( ; k< 4; k++){
-
-                                // Node node = getNodeFromGridPane(gridPane, k, j) ;
-                                // node = null;
-                                AnchorPane pane = new AnchorPane(); 
-                                pane.setStyle("-fx-background-color : #fcfcfc;");
-                                GridPane.setRowIndex(pane, j);
-                                GridPane.setColumnIndex(pane, k);
-                                gridPane.getChildren().addAll(pane);
-                            }
-                        }
-
-                        break;
-                    }
-                      
-                }
+            while(result.next()){
+                ArrayList each_row = new ArrayList<>();
+                name = result.getString(1);
+                price = result.getString(2); 
+                rate = result.getString(3);
+                category = result.getString(5);
+                tedad = Integer.parseInt(result.getString(8));
+                each_row.add(name);
+                each_row.add(price);
+                each_row.add(rate);
+                each_row.add(category);
+                each_row.add(tedad);
+                queried_data.add(each_row);
             }
-            
-            scroller.setContent(gridPane);
+            int itemCount = queried_data.size();
+            int colCount = 4;
+            int rowCount = (int) (itemCount / colCount);
+            rowCount++;
+        
+            gridPane = new GridPane();
+        int tmpCount = 0;
+        for(int j=0 ; j < rowCount ; j++){
+            for(int k=0 ; k < colCount; k++){
+                if(tmpCount >= itemCount) break;
+                ArrayList theItem = (ArrayList) queried_data.get(tmpCount);
+                name = (String) theItem.get(0);
+                price = (String) theItem.get(1); 
+                rate = (String) theItem.get(2);
+                category = (String) theItem.get(3);
+                tedad = (int) (theItem.get(4));
+                tmpCount++;
+
+                FXMLLoader loader = new FXMLLoader();
+                
+                loader.load(getClass().getResource("product.fxml").openStream());
+                OneProuduct controller = loader.getController();
+                
+                if (category.contains("protein"))  category = "protein foods";
+                category = "src/" +category +".png";
+                //test
+                // System.out.println(category);
+                controller.makeOneProuduct(price , name, Double.parseDouble(rate) , tedad , category);
+                    //test
+                // System.out.println(name + " " + j +" "+ k);
+                gridPane.add(controller.getWholePane(), k, j);
+                
+            }
+        }
+        
+        scroller.setContent(gridPane);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -420,31 +423,6 @@ public class browserController {
     }
 
 
-    // RangeSlider slider1 = new RangeSlider(0, 100, 10, 90);
-    // //Setting the slider properties
-    // slider.setShowTickLabels(true);
-    // slider.setShowTickMarks(true);
-    // slider.setMajorTickUnit(25);
-    // slider.setBlockIncrement(10);
-    // //VBox to arrange circle and the slider
-    // VBox vbox = new VBox();
-    // vbox.setPadding(new Insets(75));
-    // vbox.setSpacing(150);
-    // vbox.getChildren().addAll(slider);
-
-    public void sliderController(){
-        // Slider slider = new Slider(0, 500, 0);
-        slider.setMin(0);
-        slider.setValue(0);
-        slider.setMax(500);
-
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(100);
-        slider.setBlockIncrement(50);
-        //Setting the width of the slider
-        slider.setMaxWidth(300);
-    }
 
     public void backToBrowse(){
         //ClickSound.sound();
@@ -462,5 +440,32 @@ public class browserController {
         }
         LoginPage.stage.close();
         //open login window
+    }
+    
+    @FXML
+    RangeSlider slider;
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+            
+        slider = new RangeSlider(0, 500, 0, 500);
+        //Setting the slider properties
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(50);
+        slider.setBlockIncrement(2);
+        slider.setPrefWidth(250);
+
+        // VBox to arrange circle and the slider
+        VBox vbox = new VBox();
+        vbox.setLayoutX(10);
+        vbox.setLayoutY(300);
+        // vbox.setPrefWidth(200);
+        // vbox.setPadding(new Insets(75));
+        vbox.setSpacing(150);
+        vbox.getChildren().addAll(slider);
+
+        barPane.getChildren().addAll(vbox);
+
     }
 }

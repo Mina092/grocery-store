@@ -7,11 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<<<<<<< Updated upstream
-<AnchorPane fx:id="holePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="236.0" style="-fx-background-color: #fcfcfc;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomePage.OneProuduct">
-=======
-<AnchorPane fx:id="wholePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="236.0" style="-fx-background-color: #fcfcfc;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OneProuduct">
->>>>>>> Stashed changes
+<AnchorPane fx:id="wholePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="236.0" style="-fx-background-color: #fcfcfc;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomePage.OneProuduct">
    <children>
       <AnchorPane layoutX="47.0" layoutY="9.0" prefHeight="129.0" prefWidth="143.0" style="-fx-border-color: rgb(102, 73, 24); -fx-border-radius: 20; -fx-border-width: 3;" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="4.0">
          <children>
