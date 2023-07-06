@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import LoginScreen.LoginPage;
+import sounds.ClickSound;
 
 import java.sql.Connection;
 
@@ -447,19 +448,13 @@ public class browserController {
     }
 
     public void backToBrowse(){
-        //ClickSound.sound();
+        ClickSound.sound();
         tabpane.getSelectionModel().select(browseTab);
     }
 
 
     public void logout(){
-        //ClickSound.sound();
-        try {
-            loading();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        ClickSound.sound();
         LoginPage.stage.close();
         //open login window
     }
