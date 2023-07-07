@@ -1,14 +1,32 @@
 package AdminPage;
 
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -19,7 +37,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 
-public class AdminController {
+public class AdminController implements Initializable {
     @FXML
     private ImageView financialReport;
     @FXML
@@ -31,7 +49,7 @@ public class AdminController {
     @FXML
     private AnchorPane inventoryManagmentPane;
     @FXML
-    private AnchorPane massangerPane;
+    private AnchorPane messengerPane;
     @FXML
     private PieChart pieChart;
     @FXML
@@ -39,50 +57,154 @@ public class AdminController {
     @FXML
     private AnchorPane chatPane;
 
-    private int sellersCount = 5;
+    TableView<Inventory> inventoryTable;
+
+    private int sellersCount;
     private ImageView[] profileImages;
     private AnchorPane[] chatPanes;
 
-    @FXML
-    private void initialize(){
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setSellersCount();
+        setInventoryTable();
+        setInventory();
         setMenuImagesEventHandler(financialReport);
         setMenuImagesEventHandler(inventoryManagment);
         setMenuImagesEventHandler(chat);
         setPieChart();
         setSellersChat();
     }
-    private void setMenuImagesEventHandler(ImageView imageView){
+
+    private void setSellersCount() {
+        try {
+            sellersCount = (int) Files.lines(Paths.get("src/LoginScreen/stores.txt")).count();
+        } catch (Exception e) {
+            System.out.println("File doesn't open");
+        }
+    }
+
+    private void setInventoryTable() {
+        // creat table and columns
+        TableColumn nameColumn = new TableColumn("name");
+        TableColumn managerColumn = new TableColumn("manager");
+        TableColumn addressColumn = new TableColumn("address");
+        TableColumn proteinColumn = new TableColumn("protein");
+        TableColumn snackColumn = new TableColumn("snack");
+        TableColumn drinkColumn = new TableColumn("drink");
+        TableColumn dairyColumn = new TableColumn("dairy");
+        inventoryTable = new TableView<>();
+        
+        // set width of columns
+        nameColumn.setMinWidth(10);
+        nameColumn.setPrefWidth(75);
+        managerColumn.setMinWidth(10);
+        managerColumn.setPrefWidth(75);
+        addressColumn.setMinWidth(50);
+        addressColumn.setPrefWidth(220);
+        proteinColumn.setMinWidth(10);
+        proteinColumn.setPrefWidth(75);
+        snackColumn.setMinWidth(10);
+        snackColumn.setPrefWidth(75);
+        drinkColumn.setMinWidth(10);
+        drinkColumn.setPrefWidth(75);
+        dairyColumn.setMinWidth(10);
+        dairyColumn.setPrefWidth(75);
+        
+        // set columns alignment
+        nameColumn.setStyle( "-fx-alignment: CENTER;");
+        managerColumn.setStyle( "-fx-alignment: CENTER;");
+        addressColumn.setStyle( "-fx-alignment: CENTER;");
+        proteinColumn.setStyle( "-fx-alignment: CENTER;");
+        snackColumn.setStyle( "-fx-alignment: CENTER;");
+        drinkColumn.setStyle( "-fx-alignment: CENTER;");
+        dairyColumn.setStyle( "-fx-alignment: CENTER;");
+
+        // set value factory (most important part)
+        nameColumn.setCellValueFactory(new PropertyValueFactory("name"));
+        managerColumn.setCellValueFactory(new PropertyValueFactory("manager"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory("address"));
+        proteinColumn.setCellValueFactory(new PropertyValueFactory("protein"));
+        snackColumn.setCellValueFactory(new PropertyValueFactory<>("snack"));
+        drinkColumn.setCellValueFactory(new PropertyValueFactory<>("drink"));
+        dairyColumn.setCellValueFactory(new PropertyValueFactory<>("dairy"));
+        
+        // add columns to table
+        inventoryTable.getColumns().addAll(nameColumn, managerColumn, addressColumn, proteinColumn, snackColumn,drinkColumn, dairyColumn);
+        
+        // add table to pane
+        inventoryManagmentPane.getChildren().addAll(inventoryTable);
+
+        inventoryTable.setLayoutX(14);
+        inventoryTable.setLayoutY(14);
+        inventoryTable.setPrefWidth(672);
+        inventoryTable.setPrefHeight(450);
+    }
+
+    private void setInventory() {
+
+        String username = "root";
+        String password = "Rezam14369";
+        String url = "jdbc:mysql://localhost:3306/groceryStore";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            Connection con = DriverManager.getConnection(url, username, password);
+
+            String query = "SELECT inventory.name, stores.name, address, protein, snack, drink, dairy FROM inventory join stores on manager=id;";
+            Statement statement = con.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            String name, manager, address;
+            boolean protein, snack, drink, dairy;
+            ObservableList<Inventory> data = FXCollections.observableArrayList();
+            while (result.next()) {
+                name = result.getString(1);
+                manager = result.getString(2);
+                address = result.getString(3);
+                protein = result.getBoolean(4);
+                snack = result.getBoolean(5);
+                drink = result.getBoolean(6);
+                dairy = result.getBoolean(7);
+                data.add(new Inventory(name, manager, address, protein, snack, drink, dairy));
+            }            
+            inventoryTable.setItems(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setMenuImagesEventHandler(ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
-    @Override
-    public void handle(MouseEvent event) {
-        if (event.getSource() == financialReport) {
-            financialReportPane.toFront();
-        }else if (event.getSource() == inventoryManagment) {
-            inventoryManagmentPane.toFront();
-        } else if (event.getSource() == chat) {
-            massangerPane.toFront();
-        }
-        }
-    });
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getSource() == financialReport) {
+                    financialReportPane.toFront();
+                } else if (event.getSource() == inventoryManagment) {
+                    inventoryManagmentPane.toFront();
+                } else if (event.getSource() == chat) {
+                    messengerPane.toFront();
+                }
+            }
+        });
     }
-    private void setPieChart(){
+
+    private void setPieChart() {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-            new PieChart.Data("Apples",10),
-            new PieChart.Data("Oranges",20),
-            new PieChart.Data("Grapes",25),
-            new PieChart.Data("Melons",15)
-        );
-        pieChartData.forEach(data ->
-            data.nameProperty().bind(
+                new PieChart.Data("Apples", 10),
+                new PieChart.Data("Oranges", 20),
+                new PieChart.Data("Grapes", 25),
+                new PieChart.Data("Melons", 15));
+        pieChartData.forEach(data -> data.nameProperty().bind(
                 Bindings.concat(
-                    data.getName()," amount: ",data.pieValueProperty()
-                )
-            )
-        );
+                        data.getName(), " amount: ", data.pieValueProperty())));
         pieChart.getData().addAll(pieChartData);
     }
-    private void setSellersChat(){
+
+    private void setSellersChat() {
         sellersChat.setMaxWidth(100);
         sellersChat.setPrefColumns(1);
         sellersChat.setPrefRows(sellersCount);
@@ -91,44 +213,44 @@ public class AdminController {
         sellersChat.setPadding(new Insets(10));
         chatPanes = new AnchorPane[sellersCount];
         profileImages = new ImageView[sellersCount];
-        for(int i = 0 ; i<sellersCount;i++){
+        for (int i = 0; i < sellersCount; i++) {
             profileImages[i] = new ImageView("/Resources/shopkeeper.png");
             chatPanes[i] = new AnchorPane();
             profileImages[i].setFitHeight(50);
             profileImages[i].setFitWidth(50);
-            chatPanes[i].setPrefWidth(600);
-            chatPanes[i].setPrefHeight(550);
             chatPane.getChildren().add(chatPanes[i]);
-            
+            AnchorPane.setRightAnchor(chatPanes[i], 5.0);
+            AnchorPane.setBottomAnchor(chatPanes[i], 10.0);
+            AnchorPane.setLeftAnchor(chatPanes[i], 5.0);
+            AnchorPane.setTopAnchor(chatPanes[i], 10.0);
+
             setChatProfileEventHandler(profileImages[i]);
             switch (i) {
                 case 0:
-                    chatPanes[i].setBackground(new Background(new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY)));
+                    chatPanes[i].setBackground(
+                            new Background(new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY)));
                     break;
                 case 1:
-                    chatPanes[i].setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-                    break;
-                case 2:
-                    chatPanes[i].setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-                    break;
-                case 3:
-                    chatPanes[i].setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    chatPanes[i].setBackground(
+                            new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                     break;
             }
             sellersChat.getChildren().add(profileImages[i]);
         }
     }
-    private void setChatProfileEventHandler(ImageView imageView){
+
+    private void setChatProfileEventHandler(ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
-    @Override
-    public void handle(MouseEvent event) {
-        for(int i=0;i<sellersCount;i++){
-            if(event.getSource()==profileImages[i]){
-                chatPanes[i].toFront();
+            @Override
+            public void handle(MouseEvent event) {
+                for (int i = 0; i < sellersCount; i++) {
+                    if (event.getSource() == profileImages[i]) {
+                        chatPanes[i].toFront();
+                    }
+                }
             }
-        }
+        });
     }
-    });
-    }
+
 }

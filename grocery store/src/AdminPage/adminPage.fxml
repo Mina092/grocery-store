@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -14,14 +15,8 @@
 <BorderPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminPage.AdminController">
    <center>
       <AnchorPane prefHeight="550.0" prefWidth="700.0">
-         <children>
-            <AnchorPane fx:id="financialReportPane" prefHeight="550.0" prefWidth="750.0" style="-fx-background-color: #9fffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <PieChart fx:id="pieChart" layoutX="83.0" layoutY="75.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="inventoryManagmentPane" prefHeight="550.0" prefWidth="750.0" style="-fx-background-color: #00fa00;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <AnchorPane fx:id="chatPane" prefHeight="550.0" prefWidth="700.0" style="-fx-background-color: #005cfa;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>            
+               <AnchorPane fx:id="messengerPane" prefHeight="550.0" prefWidth="700.0" style="-fx-background-color: #005cfa;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox prefHeight="550.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
@@ -35,6 +30,17 @@
                   </HBox>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="financialReportPane" prefHeight="550.0" prefWidth="750.0" style="-fx-background-color: #9fffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <PieChart fx:id="pieChart" layoutX="83.0" layoutY="75.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="inventoryManagmentPane" prefHeight="550.0" prefWidth="700.0" style="-fx-background-color: #00fa00;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="addStorehouse" layoutX="570.0" layoutY="473.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="add storehouse" />
+                  <Button fx:id="editStoreHouse" layoutX="445.0" layoutY="473.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="edit storehouse" />
+                  <Button fx:id="deleteStoreHouse" layoutX="319.0" layoutY="473.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="delete storehouse" />
+               </children></AnchorPane>
          </children>
       </AnchorPane>
    </center>

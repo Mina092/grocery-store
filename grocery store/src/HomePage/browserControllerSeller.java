@@ -1,5 +1,8 @@
 package HomePage;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.*;
@@ -8,20 +11,29 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.*;
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import org.controlsfx.control.RangeSlider;
+
+import HomePage.OneProuduct;
 import LoginScreen.LoginPage;
 
 import java.sql.Connection;
 
-public class browserControllerSeller {
+public class browserControllerSeller implements Initializable {
 
     @FXML
     private Button categoryFilterB;
@@ -31,34 +43,108 @@ public class browserControllerSeller {
 
     @FXML
     private Button brandFilterB;
-    @FXML
-    private Slider slider;
 
     @FXML
     private ScrollPane scroller;
+
+    @FXML
+    private AnchorPane barPane;
+
+    @FXML
+    private Text priceText;
 
     @FXML
     public TabPane tabpane;
     public Tab logoutTab, browseTab;
     public Button logoutButton, backToBrowseButton, addProductButton;
 
-    @FXML
+    // @FXML
     private GridPane gridPane;
 
     @FXML
-    private TextField productsName, productsBrand, productsCategory, price;
+    RangeSlider slider;
+
+    double lowValue = 0, highValue = 500;
+    String rangePrice = ("WHERE price BETWEEN " + lowValue + " AND " + highValue);
+
+    @FXML
+    private TextField productsName, productsBrand, productsCategory, price, cost, count;
 
     @FXML
     public Text accUser, accPass;
 
-    @FXML
-    public void initialize(){
-        accUser.setText(LoginPage.user);
-        accPass.setText(LoginPage.pass);
-    }
     boolean dairy = false, protein = false, snack = false, drink = false;
     boolean priceD = false, priceA = false, rateD = false, rateA = false, newest = false, oldest = false;
     boolean brand1 = false, brand2 = false, brand3 = false, brand4 = false;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        accUser.setText(LoginPage.user);
+        accPass.setText(LoginPage.pass);
+        try {
+            allSort();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        slider = new RangeSlider(0, 500, 0, 500);
+
+        // Setting the slider properties
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(50);
+        slider.setBlockIncrement(2);
+        slider.setPrefWidth(250);
+
+        // VBox to arrange circle and the slider
+        VBox vbox = new VBox();
+        vbox.setLayoutX(10);
+        vbox.setLayoutY(310);
+        // vbox.setPrefWidth(200);
+        // vbox.setPadding(new Insets(75));
+        vbox.setSpacing(150);
+        vbox.getChildren().addAll(slider);
+
+        barPane.getChildren().addAll(vbox);
+        slider.highValueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+                highValue = (double) newValue;
+                DecimalFormat df = new DecimalFormat("#.##");
+                highValue = Double.valueOf(df.format(highValue));
+                rangePrice = ("WHERE price BETWEEN " + lowValue + " AND " + highValue);
+                priceText.setText("FROM " + lowValue + " TO " + highValue);
+                try {
+                    sortByRangePrice();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        slider.lowValueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+                lowValue = (double) newValue;
+                DecimalFormat df = new DecimalFormat("#.##");
+                lowValue = Double.valueOf(df.format(lowValue));
+
+                rangePrice = ("WHERE price BETWEEN " + lowValue + " AND " + highValue);
+                priceText.setText("FROM " + lowValue + " TO " + highValue);
+
+                try {
+                    sortByRangePrice();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     public void sort(String sortBy) throws IOException {
 
@@ -85,60 +171,58 @@ public class browserControllerSeller {
             ResultSet result = statement.executeQuery(query);
 
             String name, price, rate, category;
+            int tedad;
+            ArrayList queried_data = new ArrayList<>();
 
-            for (int j = 0; j < 8; j++) {
-                for (int k = 0; k < 4; k++) {
+            while (result.next()) {
+                ArrayList each_row = new ArrayList<>();
+                name = result.getString(1);
+                price = result.getString(2);
+                rate = result.getString(3);
+                category = result.getString(5);
+                tedad = Integer.parseInt(result.getString(8));
+                each_row.add(name);
+                each_row.add(price);
+                each_row.add(rate);
+                each_row.add(category);
+                each_row.add(tedad);
+                queried_data.add(each_row);
+            }
+            int itemCount = queried_data.size();
+            int colCount = 4;
+            int rowCount = (int) (itemCount / colCount);
+            rowCount++;
 
-                    // while(result.next()){
-                    if (result.next()) {
-                        name = result.getString(1);
-                        price = result.getString(2);
-                        rate = result.getString(3);
-                        category = result.getString(5);
-
-                        int max = Integer.parseInt(result.getString(8));
-
-                        // test
-                        // System.out.println(name+" " + price+" " + rate);
-
-                        FXMLLoader loader = new FXMLLoader();
-
-                        loader.load(getClass().getResource("product.fxml").openStream());
-                        OneProuduct controller = loader.getController();
-
-                        if (category.contains("protein"))
-                            category = "protein foods";
-                        category = "src/" + category + ".png";
-                        // test
-                        // System.out.println(category);
-                        // controller.makeOneProuduct(price , name, Double.parseDouble(rate) , max ,
-                        // category);
-                        // test
-                        // System.out.println(name + " " + j +" "+ k);
-                        // GridPane.setRowIndex(controller.getWholePane(), j);
-                        // GridPane.setColumnIndex(controller.getWholePane(), k);
-
-                        // gridPane.getChildren().addAll(controller.getWholePane());
-                    } else {
-
-                        for (; j < 8; j++) {
-                            if ((k == 4 && j == 1) || (k == 4 && j == 2) || (k == 4 && j == 3) || (k == 4 && j == 4)
-                                    || (k == 4 && j == 5) || (k == 4 && j == 6))
-                                k = 0;
-                            for (; k < 4; k++) {
-
-                                // Node node = getNodeFromGridPane(gridPane, k, j) ;
-                                // node = null;
-                                AnchorPane pane = new AnchorPane();
-                                pane.setStyle("-fx-background-color : #fcfcfc;");
-                                GridPane.setRowIndex(pane, j);
-                                GridPane.setColumnIndex(pane, k);
-                                gridPane.getChildren().addAll(pane);
-                            }
-                        }
-
+            gridPane = new GridPane();
+            int tmpCount = 0;
+            for (int j = 0; j < rowCount; j++) {
+                for (int k = 0; k < colCount; k++) {
+                    if (tmpCount >= itemCount)
                         break;
-                    }
+                    ArrayList theItem = (ArrayList) queried_data.get(tmpCount);
+                    name = (String) theItem.get(0);
+                    price = (String) theItem.get(1);
+                    rate = (String) theItem.get(2);
+                    category = (String) theItem.get(3);
+                    tedad = (int) (theItem.get(4));
+                    tmpCount++;
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("product.fxml"));
+
+                    Parent root = loader.load();
+                    // Parent root = (Parent) loader.load(getClass().getResource("product.fxml"));
+
+                    OneProuduct controller = loader.getController();
+                    if (category.contains("protein"))
+                        category = "protein foods";
+                    category = "src/Resources/" + category + ".png";
+                    // test
+                    // System.out.println(category);
+                    OneProuduct product = controller.makeOneProuduct(price, name, Double.parseDouble(rate), tedad,
+                            category);
+                    // test
+                    // System.out.println(name + " " + j +" "+ k);
+                    gridPane.add(product.getWholePane(), k, j);
 
                 }
             }
@@ -188,13 +272,13 @@ public class browserControllerSeller {
             brand = "brand4";
 
         if (brand != null && sortBy == null)
-            sort("WHERE brand = '" + brand + "' ordered by date DESC;");
+            sort(rangePrice + "AND brand = '" + brand + "' ordered by date DESC;");
         else if (brand == null && sortBy != null)
-            sort(" ORDER BY " + sortBy + ";");
+            sort(rangePrice + " ORDER BY " + sortBy + ";");
         else if (brand == null && sortBy == null)
-            sort(" ORDER BY date DESC;");
+            sort(rangePrice + " ORDER BY date DESC;");
         else if (brand != null && sortBy != null)
-            sort(" and brand = '" + brand + "' ORDER BY " + sortBy + ";");
+            sort(rangePrice + " and brand = '" + brand + "' ORDER BY " + sortBy + ";");
     }
 
     public void categorySort(String category) throws IOException {
@@ -225,13 +309,14 @@ public class browserControllerSeller {
             brand = "brand4";
 
         if (brand != null && sortBy == null)
-            sort("WHERE category = '" + category + "' and brand = '" + brand + "' ordered by date DESC;");
+            sort(rangePrice + "AND category = '" + category + "' and brand = '" + brand + "' ordered by date DESC;");
         else if (brand == null && sortBy != null)
-            sort(" WHERE category = '" + category + "' ORDER BY " + sortBy + ";");
+            sort(rangePrice + "AND category = '" + category + "' ORDER BY " + sortBy + ";");
         else if (brand == null && sortBy == null)
-            sort(" WHERE category = '" + category + "' ORDER BY date DESC;");
+            sort(rangePrice + "AND category = '" + category + "' ORDER BY date DESC;");
         else if (brand != null && sortBy != null)
-            sort(" WHERE category = '" + category + "' and brand = '" + brand + "' ORDER BY " + sortBy + ";");
+            sort(rangePrice + "AND category = '" + category + "' and brand = '" + brand + "' ORDER BY " + sortBy + ";");
+        ;
 
     }
 
@@ -299,13 +384,13 @@ public class browserControllerSeller {
             brand = "brand4";
 
         if (brand != null && category == null)
-            sort("WHERE brand = '" + brand + "' ORDER BY " + sortBy + ";");
+            sort(rangePrice + "AND brand = '" + brand + "' ORDER BY " + sortBy + ";");
         else if (brand == null && category != null)
-            sort(" WHERE category = '" + category + "' ORDER BY " + sortBy + ";");
+            sort(rangePrice + "AND category = '" + category + "' ORDER BY " + sortBy + ";");
         else if (brand == null && category == null)
-            sort(" ORDER BY " + sortBy + ";");
+            sort(rangePrice + " ORDER BY " + sortBy + ";");
         else if (brand != null && category != null)
-            sort(" WHERE category = '" + category + "' and brand = '" + brand + "' ORDER BY " + sortBy + ";");
+            sort(rangePrice + "AND category = '" + category + "' and brand = '" + brand + "' ORDER BY " + sortBy + ";");
     }
 
     public void priceDSort() throws IOException {
@@ -464,24 +549,24 @@ public class browserControllerSeller {
         if (priceA)
             sortBy = "price ASC";
         else if (priceD)
-            category = "price DESC";
+            sortBy = "price DESC";
         else if (rateA)
-            category = "rate ASC";
+            sortBy = "rate ASC";
         else if (rateD)
-            category = "rate DESC";
+            sortBy = "rate DESC";
         else if (newest)
-            category = "date DESC";
+            sortBy = "date DESC";
         else if (oldest)
-            category = "date ASC";
+            sortBy = "date ASC";
 
         if (category != null && sortBy == null)
-            sort("WHERE category = '" + category + "' ORDER BY date DESC;");
+            sort(rangePrice + "AND category = '" + category + "' ORDER BY date DESC;");
         else if (category == null && sortBy != null)
-            sort(" ORDER BY " + sortBy + ";");
+            sort(rangePrice + " ORDER BY " + sortBy + ";");
         else if (category == null && sortBy == null)
-            sort(" ORDER BY date DESC;");
+            sort(rangePrice + " ORDER BY date DESC;");
         else if (category != null && sortBy != null)
-            sort(" WHERE category = '" + category + "' ORDER BY " + sortBy + ";");
+            sort(rangePrice + "AND category = '" + category + "' ORDER BY " + sortBy + ";");
 
         brandFilterB.setText("no filter");
     }
@@ -501,24 +586,118 @@ public class browserControllerSeller {
         if (priceA)
             sortBy = "price ASC";
         else if (priceD)
-            category = "price DESC";
+            sortBy = "price DESC";
         else if (rateA)
-            category = "rate ASC";
+            sortBy = "rate ASC";
         else if (rateD)
-            category = "rate DESC";
+            sortBy = "rate DESC";
         else if (newest)
-            category = "date DESC";
+            sortBy = "date DESC";
         else if (oldest)
-            category = "date ASC";
+            sortBy = "date ASC";
 
         if (category != null && sortBy == null)
-            sort("WHERE category = '" + category + "' and brand = '" + brand + "' ORDER BY date DESC;");
+            sort(rangePrice + "AND category = '" + category + "' and brand = '" + brand + "' ORDER BY date DESC;");
         else if (category == null && sortBy != null)
-            sort(" WHERE brand = '" + brand + "' ORDER BY " + sortBy + ";");
+            sort(rangePrice + "AND brand = '" + brand + "' ORDER BY " + sortBy + ";");
         else if (category == null && sortBy == null)
-            sort(" WHERE brand = '" + brand + "' ORDER BY date DESC;");
+            sort(rangePrice + "AND brand = '" + brand + "' ORDER BY date DESC;");
         else if (category != null && sortBy != null)
-            sort(" WHERE category = '" + category + "' and brand = '" + brand + "' ORDER BY " + sortBy + ";");
+            sort(rangePrice + "AND category = '" + category + "' and brand = '" + brand + "' ORDER BY " + sortBy + ";");
+    }
+
+    public void sortByRangePrice() throws IOException {
+
+        String category = null, brand = null, sortBy = null;
+
+        if (dairy)
+            category = "dairy";
+        else if (protein)
+            category = "protein foods";
+        else if (drink)
+            category = "drinks";
+        else if (snack)
+            category = "snacks";
+
+        if (brand1)
+            brand = "brand1";
+        else if (brand2)
+            brand = "brand2";
+        else if (brand3)
+            brand = "brand3";
+        else if (brand4)
+            brand = "brand4";
+
+        if (priceA)
+            sortBy = "price ASC";
+        else if (priceD)
+            sortBy = "price DESC";
+        else if (rateA)
+            sortBy = "rate ASC";
+        else if (rateD)
+            sortBy = "rate DESC";
+        else if (newest)
+            sortBy = "date DESC";
+        else if (oldest)
+            sortBy = "date ASC";
+
+        if (brand != null && category == null && sortBy != null)
+            sort(rangePrice + "AND brand = '" + brand + "' ORDER BY " + sortBy + ";");
+        else if (brand == null && category == null && sortBy != null)
+            sort(rangePrice + " ORDER BY " + sortBy + ";");
+        else if (brand != null && category != null && sortBy != null)
+            sort(rangePrice + "AND category = '" + category + "' and brand = '" + brand + "' ORDER BY " + sortBy + ";");
+        else if (brand == null && category != null && sortBy != null)
+            sort(rangePrice + "AND category = '" + category + "' ORDER BY " + sortBy + ";");
+
+        if (brand != null && category == null && sortBy == null)
+            sort(rangePrice + "AND brand = '" + brand + "' ORDER BY date DESC ;");
+        else if (brand == null && category == null && sortBy == null)
+            sort(rangePrice + " ORDER BY " + sortBy + ";");
+        else if (brand != null && category != null && sortBy == null)
+            sort(rangePrice + "AND category = '" + category + "' and brand = '" + brand + "' ORDER BY date DESC ;");
+        else if (brand == null && category != null && sortBy == null)
+            sort(rangePrice + "AND category = '" + category + "' ORDER BY date DESC ;");
+    }
+
+    public void clickAddProduct() {
+        String username = "root";
+        String password = "Rezam14369";
+        String url = "jdbc:mysql://localhost:3306/groceryStore";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            Connection con = DriverManager.getConnection(url, username, password);
+            // insert new product to products table
+            String sql = " insert into products (name, price, rate, brand, category, date)"
+                    + " values (?, ?, ?, ?, ?, now())";
+            PreparedStatement preparedStmt = con.prepareStatement(sql);
+            preparedStmt.setString(1, productsName.getText());
+            preparedStmt.setFloat(2, Float.parseFloat(price.getText()));
+            preparedStmt.setDouble(3, 0);
+            preparedStmt.setString(4, productsBrand.getText());
+            preparedStmt.setString(5, productsCategory.getText());
+            preparedStmt.execute();
+            // exrtract name from stores table
+            String query = "SELECT id FROM stores WHERE name='"+accUser+"';";
+            Statement statement = con.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            int store_id = result.getInt(1);
+            String sql2 = " insert into bank_accounts (store_id, amount, date)"
+                    + " values (?, ?, now())";
+            preparedStmt = con.prepareStatement(sql2);
+            preparedStmt.setInt(1,store_id);
+            preparedStmt.setDouble(2,-Double.parseDouble(cost.getText()));
+            preparedStmt.execute();
+            
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -544,32 +723,6 @@ public class browserControllerSeller {
         loadingstage.close();
     }
 
-    // RangeSlider slider1 = new RangeSlider(0, 100, 10, 90);
-    // //Setting the slider properties
-    // slider.setShowTickLabels(true);
-    // slider.setShowTickMarks(true);
-    // slider.setMajorTickUnit(25);
-    // slider.setBlockIncrement(10);
-    // //VBox to arrange circle and the slider
-    // VBox vbox = new VBox();
-    // vbox.setPadding(new Insets(75));
-    // vbox.setSpacing(150);
-    // vbox.getChildren().addAll(slider);
-
-    public void sliderController() {
-        // Slider slider = new Slider(0, 500, 0);
-        slider.setMin(0);
-        slider.setValue(0);
-        slider.setMax(500);
-
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(100);
-        slider.setBlockIncrement(50);
-        // Setting the width of the slider
-        slider.setMaxWidth(300);
-    }
-
     public void backToBrowse() {
         // ClickSound.sound();
         tabpane.getSelectionModel().select(browseTab);
@@ -585,34 +738,5 @@ public class browserControllerSeller {
         }
         LoginPage.stage.close();
         // open login window
-    }
-
-    public void clickAddProduct() {
-        String username = "root";
-        String password = "Rezam14369";
-        String url = "jdbc:mysql://localhost:3306/groceryStore";
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            Connection con = DriverManager.getConnection(url, username, password);
-            String sql = " insert into products (name, price, rate, brand, category, date)"
-                    + " values (?, ?, ?, ?, ?, now())";
-            PreparedStatement preparedStmt = con.prepareStatement(sql);
-            preparedStmt.setString(1, productsName.getText());
-            preparedStmt.setFloat(2, Float.parseFloat(price.getText()));
-            preparedStmt.setDouble(3, 0);
-            preparedStmt.setString(4, productsBrand.getText());
-            preparedStmt.setString(5, productsCategory.getText());
-
-            preparedStmt.execute();
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
     }
 }
