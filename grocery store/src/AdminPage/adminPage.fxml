@@ -39,7 +39,7 @@
                <children>
                   <Button fx:id="addStorehouse" layoutX="570.0" layoutY="473.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="add storehouse" />
                   <Button fx:id="editStoreHouse" layoutX="445.0" layoutY="473.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="edit storehouse" />
-                  <Button fx:id="deleteStoreHouse" layoutX="319.0" layoutY="473.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="delete storehouse" />
+                  <Button fx:id="deleteStoreHouse" layoutX="319.0" layoutY="473.0" mnemonicParsing="false" onAction="#deleteButtonClick" prefHeight="26.0" prefWidth="116.0" text="delete storehouse" />
                </children></AnchorPane>
          </children>
       </AnchorPane>

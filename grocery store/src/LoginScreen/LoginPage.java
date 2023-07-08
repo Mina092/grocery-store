@@ -247,7 +247,7 @@ public class LoginPage{
         }
         if(checkCaptcha()==1 && toggle1.getSelectedToggle()!=null){
             user= usernameText.getText();
-             pass= passwordText.getText();
+            pass= passwordText.getText();
             RadioButton selectedRadioButton = (RadioButton) toggle1.getSelectedToggle();
             String toggleGroupValue = selectedRadioButton.getText();
 

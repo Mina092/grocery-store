@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.*;
@@ -28,8 +30,9 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.RangeSlider;
 
-import HomePage.OneProuduct;
+import HomePage.LittleProduct;
 import LoginScreen.LoginPage;
+import sounds.ClickSound;
 
 import java.sql.Connection;
 
@@ -56,7 +59,9 @@ public class browserControllerSeller implements Initializable {
     @FXML
     public TabPane tabpane;
     public Tab logoutTab, browseTab;
-    public Button logoutButton, backToBrowseButton, addProductButton;
+    public Button logoutButton, backToBrowseButton;
+    @FXML
+    public Button addProductButton;
 
     // @FXML
     private GridPane gridPane;
@@ -65,86 +70,21 @@ public class browserControllerSeller implements Initializable {
     RangeSlider slider;
 
     double lowValue = 0, highValue = 500;
-    String rangePrice = ("WHERE price BETWEEN " + lowValue + " AND " + highValue);
 
-    @FXML
-    private TextField productsName, productsBrand, productsCategory, price, cost, count;
+    String rangePrice = ("WHERE price BETWEEN " + lowValue + " AND " + highValue);
 
     @FXML
     public Text accUser, accPass;
 
+    @FXML
+    public ImageView cartImage;
+
+    @FXML
+    TextField productName, price, productsBrand, productsCategory, count, cost;
+
     boolean dairy = false, protein = false, snack = false, drink = false;
     boolean priceD = false, priceA = false, rateD = false, rateA = false, newest = false, oldest = false;
     boolean brand1 = false, brand2 = false, brand3 = false, brand4 = false;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        accUser.setText(LoginPage.user);
-        accPass.setText(LoginPage.pass);
-        try {
-            allSort();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        slider = new RangeSlider(0, 500, 0, 500);
-
-        // Setting the slider properties
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(50);
-        slider.setBlockIncrement(2);
-        slider.setPrefWidth(250);
-
-        // VBox to arrange circle and the slider
-        VBox vbox = new VBox();
-        vbox.setLayoutX(10);
-        vbox.setLayoutY(310);
-        // vbox.setPrefWidth(200);
-        // vbox.setPadding(new Insets(75));
-        vbox.setSpacing(150);
-        vbox.getChildren().addAll(slider);
-
-        barPane.getChildren().addAll(vbox);
-        slider.highValueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
-                highValue = (double) newValue;
-                DecimalFormat df = new DecimalFormat("#.##");
-                highValue = Double.valueOf(df.format(highValue));
-                rangePrice = ("WHERE price BETWEEN " + lowValue + " AND " + highValue);
-                priceText.setText("FROM " + lowValue + " TO " + highValue);
-                try {
-                    sortByRangePrice();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        slider.lowValueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
-                lowValue = (double) newValue;
-                DecimalFormat df = new DecimalFormat("#.##");
-                lowValue = Double.valueOf(df.format(lowValue));
-
-                rangePrice = ("WHERE price BETWEEN " + lowValue + " AND " + highValue);
-                priceText.setText("FROM " + lowValue + " TO " + highValue);
-
-                try {
-                    sortByRangePrice();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     public void sort(String sortBy) throws IOException {
 
@@ -159,6 +99,9 @@ public class browserControllerSeller implements Initializable {
         String url = "jdbc:mysql://localhost:3306/groceryStore";
         String query = "SELECT * FROM products " + sortBy;
 
+        // test
+        // System.out.println(query);
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -170,7 +113,7 @@ public class browserControllerSeller implements Initializable {
 
             ResultSet result = statement.executeQuery(query);
 
-            String name, price, rate, category;
+            String name, price, rate, category, brand, imagePath;
             int tedad;
             ArrayList queried_data = new ArrayList<>();
 
@@ -179,6 +122,7 @@ public class browserControllerSeller implements Initializable {
                 name = result.getString(1);
                 price = result.getString(2);
                 rate = result.getString(3);
+                brand = result.getString(4);
                 category = result.getString(5);
                 tedad = Integer.parseInt(result.getString(8));
                 each_row.add(name);
@@ -186,6 +130,7 @@ public class browserControllerSeller implements Initializable {
                 each_row.add(rate);
                 each_row.add(category);
                 each_row.add(tedad);
+                each_row.add(brand);
                 queried_data.add(each_row);
             }
             int itemCount = queried_data.size();
@@ -205,6 +150,7 @@ public class browserControllerSeller implements Initializable {
                     rate = (String) theItem.get(2);
                     category = (String) theItem.get(3);
                     tedad = (int) (theItem.get(4));
+                    brand = (String) theItem.get(5);
                     tmpCount++;
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("product.fxml"));
@@ -212,14 +158,15 @@ public class browserControllerSeller implements Initializable {
                     Parent root = loader.load();
                     // Parent root = (Parent) loader.load(getClass().getResource("product.fxml"));
 
-                    OneProuduct controller = loader.getController();
-                    if (category.contains("protein"))
-                        category = "protein foods";
-                    category = "src/Resources/" + category + ".png";
+                    LittleProduct controller = loader.getController();
+                    imagePath = category;
+                    if (imagePath.contains("protein"))
+                        imagePath = "protein foods";
+                    imagePath = "src/Resources/" + imagePath + ".png";
                     // test
                     // System.out.println(category);
-                    OneProuduct product = controller.makeOneProuduct(price, name, Double.parseDouble(rate), tedad,
-                            category);
+                    LittleProduct product = controller.makeOneLittleProduct(price, name, Double.parseDouble(rate),
+                            brand, category, imagePath);
                     // test
                     // System.out.println(name + " " + j +" "+ k);
                     gridPane.add(product.getWholePane(), k, j);
@@ -236,6 +183,8 @@ public class browserControllerSeller implements Initializable {
     }
 
     public void allSort() throws IOException {
+
+        ClickSound.sound();
 
         dairy = false;
         protein = false;
@@ -316,7 +265,6 @@ public class browserControllerSeller implements Initializable {
             sort(rangePrice + "AND category = '" + category + "' ORDER BY date DESC;");
         else if (brand != null && sortBy != null)
             sort(rangePrice + "AND category = '" + category + "' and brand = '" + brand + "' ORDER BY " + sortBy + ";");
-        ;
 
     }
 
@@ -477,6 +425,8 @@ public class browserControllerSeller implements Initializable {
 
     public void noSortFilterBYSORT() throws IOException {
 
+        ClickSound.sound();
+
         priceD = false;
         priceA = false;
         rateD = false;
@@ -529,6 +479,8 @@ public class browserControllerSeller implements Initializable {
     }
 
     public void noFilterBrand() throws IOException {
+
+        ClickSound.sound();
 
         brand1 = false;
         brand2 = false;
@@ -604,6 +556,7 @@ public class browserControllerSeller implements Initializable {
             sort(rangePrice + "AND brand = '" + brand + "' ORDER BY date DESC;");
         else if (category != null && sortBy != null)
             sort(rangePrice + "AND category = '" + category + "' and brand = '" + brand + "' ORDER BY " + sortBy + ";");
+
     }
 
     public void sortByRangePrice() throws IOException {
@@ -660,6 +613,82 @@ public class browserControllerSeller implements Initializable {
             sort(rangePrice + "AND category = '" + category + "' ORDER BY date DESC ;");
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            allSort();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        accUser.setText(LoginPage.user);
+        accPass.setText(LoginPage.pass);
+
+        slider = new RangeSlider(0, 500, 0, 500);
+
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(50);
+        slider.setBlockIncrement(2);
+        slider.setPrefWidth(250);
+
+        // VBox to arrange circle and the slider
+        VBox vbox = new VBox();
+        vbox.setLayoutX(10);
+        vbox.setLayoutY(310);
+        // vbox.setPrefWidth(200);
+        // vbox.setPadding(new Insets(75));
+        vbox.setSpacing(150);
+        vbox.getChildren().addAll(slider);
+
+        barPane.getChildren().addAll(vbox);
+
+        slider.highValueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                highValue = (double) newValue;
+
+                // test
+                // System.out.println(lowValue + " " + highValue);
+
+                DecimalFormat df = new DecimalFormat("#.##");
+                highValue = Double.valueOf(df.format(highValue));
+
+                rangePrice = ("WHERE price BETWEEN " + lowValue + " AND " + highValue);
+                priceText.setText("FROM " + lowValue + " TO " + highValue);
+                try {
+                    sortByRangePrice();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+        slider.lowValueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+                lowValue = (double) newValue;
+                // test
+                // System.out.println(lowValue + " " + highValue);
+
+                DecimalFormat df = new DecimalFormat("#.##");
+                lowValue = Double.valueOf(df.format(lowValue));
+
+                rangePrice = ("WHERE price BETWEEN " + lowValue + " AND " + highValue);
+                priceText.setText("FROM " + lowValue + " TO " + highValue);
+
+                try {
+                    sortByRangePrice();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
     public void clickAddProduct() {
         String username = "root";
         String password = "Rezam14369";
@@ -672,33 +701,65 @@ public class browserControllerSeller implements Initializable {
         }
         try {
             Connection con = DriverManager.getConnection(url, username, password);
-            // insert new product to products table
-            String sql = " insert into products (name, price, rate, brand, category, date)"
-                    + " values (?, ?, ?, ?, ?, now())";
+            String sql = " insert into products (name, price, rate, brand, category, date,tedad)"
+                    + " values (?, ?, ?, ?, ?, now(), ?)";
             PreparedStatement preparedStmt = con.prepareStatement(sql);
-            preparedStmt.setString(1, productsName.getText());
+            preparedStmt.setString(1, productName.getText());
             preparedStmt.setFloat(2, Float.parseFloat(price.getText()));
             preparedStmt.setDouble(3, 0);
             preparedStmt.setString(4, productsBrand.getText());
             preparedStmt.setString(5, productsCategory.getText());
+            preparedStmt.setInt(6, Integer.parseInt(count.getText()));
+
             preparedStmt.execute();
+            con.close();
+            con = DriverManager.getConnection(url, username, password);
+
             // exrtract name from stores table
-            String query = "SELECT id FROM stores WHERE name='"+accUser+"';";
+            String query = "select * from stores where name ='" + accUser.getText() + "'";
             Statement statement = con.createStatement();
             ResultSet result = statement.executeQuery(query);
-            int store_id = result.getInt(1);
+            result.next();
+            int storeId = result.getInt("id");
+
             String sql2 = " insert into bank_accounts (store_id, amount, date)"
                     + " values (?, ?, now())";
             preparedStmt = con.prepareStatement(sql2);
-            preparedStmt.setInt(1,store_id);
-            preparedStmt.setDouble(2,-Double.parseDouble(cost.getText()));
+            preparedStmt.setInt(1, storeId);
+            preparedStmt.setDouble(2, -Double.parseDouble(cost.getText()) * Integer.parseInt(count.getText()));
             preparedStmt.execute();
-            
+
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void cartImageClicked() {
+
+        // cartImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>()
+        // {
+
+        // @Override
+        // public void handle(Event arg0) {
+        try {
+            System.out.println("Cart clicked");
+            Parent root1 = FXMLLoader.load(getClass().getResource("/Cart/cartPage.fxml"));
+            browserController.scene = new Scene(root1);
+            browserController.cartStage.setScene(browserController.scene);
+            browserController.cartStage.show();
+            browserController.cartStage.getIcons().add(new Image("/Resources/carticon.png"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+
+        }
+        // throw new UnsupportedOperationException("Unimplemented method 'handle'");
+        // }
+
+        // });
     }
 
     void loading() throws IOException {
@@ -724,19 +785,16 @@ public class browserControllerSeller implements Initializable {
     }
 
     public void backToBrowse() {
-        // ClickSound.sound();
         tabpane.getSelectionModel().select(browseTab);
     }
 
     public void logout() {
-        // ClickSound.sound();
-        try {
-            loading();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        ClickSound.sound();
         LoginPage.stage.close();
         // open login window
+    }
+
+    public void tabChanged() {
+        ClickSound.sound();
     }
 }
