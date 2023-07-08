@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.RangeSlider;
 
-import HomePage.OneProuduct;
+import HomePage.LittleProduct;
 import LoginScreen.LoginPage;
 import sounds.ClickSound;
 
@@ -114,7 +114,7 @@ public class browserController implements Initializable {
 
             ResultSet result = statement.executeQuery(query);
 
-            String name, price, rate , category;
+            String name, price, rate , category , brand , imagePath;
             int tedad;
             ArrayList queried_data = new ArrayList<>();
             
@@ -123,6 +123,7 @@ public class browserController implements Initializable {
                 name = result.getString(1);
                 price = result.getString(2); 
                 rate = result.getString(3);
+                brand = result.getString(4);
                 category = result.getString(5);
                 tedad = Integer.parseInt(result.getString(8));
                 each_row.add(name);
@@ -130,6 +131,7 @@ public class browserController implements Initializable {
                 each_row.add(rate);
                 each_row.add(category);
                 each_row.add(tedad);
+                each_row.add(brand);
                 queried_data.add(each_row);
             }
             int itemCount = queried_data.size();
@@ -148,6 +150,7 @@ public class browserController implements Initializable {
                 rate = (String) theItem.get(2);
                 category = (String) theItem.get(3);
                 tedad = (int) (theItem.get(4));
+                brand = (String) theItem.get(5);
                 tmpCount++;
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("product.fxml"));
@@ -155,12 +158,13 @@ public class browserController implements Initializable {
                 Parent root = loader.load();
                 // Parent root = (Parent) loader.load(getClass().getResource("product.fxml"));
                 
-                OneProuduct controller = loader.getController();
-                if (category.contains("protein"))  category = "protein foods";
-                category = "src/Resources/" +category +".png";
+                LittleProduct controller = loader.getController();
+                imagePath = category;
+                if (imagePath.contains("protein"))  imagePath = "protein foods";
+                imagePath = "src/Resources/" +imagePath +".png";
                 //test
                 // System.out.println(category);
-                OneProuduct product = controller.makeOneProuduct(price , name, Double.parseDouble(rate) , tedad , category);
+                LittleProduct product = controller.makeOneLittleProduct(price , name, Double.parseDouble(rate) ,brand, category , imagePath);
                     //test
                 // System.out.println(name + " " + j +" "+ k);
                 gridPane.add(product.getWholePane(), k, j);
@@ -177,6 +181,8 @@ public class browserController implements Initializable {
     }
    
    public void allSort() throws IOException{
+    
+    ClickSound.sound();
 
     dairy = false ; protein = false; snack = false; drink = false;newest = false ; oldest = false;
     categoryFilterB.setText("all (newest)");
@@ -336,6 +342,8 @@ public class browserController implements Initializable {
    
 
    public void noSortFilterBYSORT() throws IOException{
+
+    ClickSound.sound();
     
     priceD = false ; priceA = false;  rateD = false;  rateA = false ; newest = false ; oldest = false;
     sortFilterB.setText("no filter");
@@ -373,6 +381,9 @@ public class browserController implements Initializable {
    }
 
    public void noFilterBrand() throws IOException{
+    
+    ClickSound.sound();
+
             
     brand1 = false ; brand2 = false;  brand3 = false;  brand4 = false ;
 
@@ -552,9 +563,7 @@ public class browserController implements Initializable {
     }
 
 
-
     public void backToBrowse(){
-        ClickSound.sound();
         tabpane.getSelectionModel().select(browseTab);
     }
 
@@ -563,5 +572,9 @@ public class browserController implements Initializable {
         ClickSound.sound();
         LoginPage.stage.close();
         //open login window
+    }
+
+    public void tabChanged(){
+        ClickSound.sound();
     }
 }

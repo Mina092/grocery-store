@@ -40,7 +40,7 @@
    <center>
       <TabPane fx:id="tabpane" prefHeight="539.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="browseTab" text="          browse          ">
+          <Tab fx:id="browseTab" onSelectionChanged="#tabChanged" text="          browse          ">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="477.0" prefWidth="1280.0" style="-fx-background-color: #fcfcfc;">
                      <children>
@@ -110,7 +110,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="          contact us          ">
+            <Tab onSelectionChanged="#tabChanged" text="          contact us          ">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #b5b4b3;">
                      <children>
@@ -181,7 +181,7 @@
                      </children></AnchorPane>
               </content>
             </Tab>
-          <Tab fx:id="logoutTab" text="          log out          ">
+          <Tab fx:id="logoutTab" onSelectionChanged="#tabChanged" text="          log out          ">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #b5b4b3;">
                      <children>
@@ -209,7 +209,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="          account          ">
+            <Tab onSelectionChanged="#tabChanged" text="          account          ">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #b5b4b3;">
                      <children>
