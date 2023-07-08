@@ -1,5 +1,6 @@
 package AdminPage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -112,15 +113,48 @@ public class AdminController implements Initializable {
     }
 
     private void setPieChart() {
+        String username = "root";
+        String password = "Rezam14369";
+        String url = "jdbc:mysql://localhost:3306/groceryStore";
+        double expenses = 0, incomes = 0;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            Connection con = DriverManager.getConnection(url, username, password);
+
+            String query = "select * from bank_accounts";
+            Statement statement = con.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()) {
+                double amount = result.getInt("amount");
+                if (amount > 0) {
+                    incomes += amount;
+                }
+                if (amount < 0) {
+                    expenses -= amount;
+                }
+            }
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Apples", 10),
-                new PieChart.Data("Oranges", 20),
-                new PieChart.Data("Grapes", 25),
-                new PieChart.Data("Melons", 15));
+                new PieChart.Data("Expenses", expenses),
+                new PieChart.Data("Incomes", incomes));
+        // for (PieChart.Data data : pieChartData) {
+        //     System.out.println(data.getName());
+        //     if (data.getName().equals("Expenses"))
+        //         data.setStyle("-fx-pie-color: red");
+        // }
         pieChartData.forEach(data -> data.nameProperty().bind(
-                Bindings.concat(
-                        data.getName(), " amount: ", data.pieValueProperty())));
-        pieChart.getData().addAll(pieChartData);
+            Bindings.concat(
+                data.getName(), " amount: ", data.pieValueProperty())));
+                pieChart.getData().addAll(pieChartData);
+                pieChartData.get(0).getNode().setStyle("-fx-pie-color: red");
+                pieChartData.get(1).getNode().setStyle("-fx-pie-color: green");
     }
 
     private void setInventoryTable() {
