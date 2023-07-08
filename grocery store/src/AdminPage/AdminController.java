@@ -339,9 +339,9 @@ public class AdminController implements Initializable {
             preparedStmt.setInt(2, Integer.parseInt(inventory.getManager()));
             preparedStmt.setString(3, inventory.getAddress());
             preparedStmt.setInt(4, inventory.getProtein() ? 1 : 0);
-            preparedStmt.setInt(5, inventory.getSnack()? 1 : 0);
-            preparedStmt.setInt(6, inventory.getDrink()? 1 : 0);
-            preparedStmt.setInt(7, inventory.getDairy()? 1 : 0);
+            preparedStmt.setInt(5, inventory.getSnack() ? 1 : 0);
+            preparedStmt.setInt(6, inventory.getDrink() ? 1 : 0);
+            preparedStmt.setInt(7, inventory.getDairy() ? 1 : 0);
             preparedStmt.execute();
             con.close();
         } catch (SQLException e) {
@@ -373,12 +373,33 @@ public class AdminController implements Initializable {
         inventoryTable.getItems().add(inventory);
     }
 
-    public void deleteButtonClick(){
-        ObservableList<Inventory> itemSelected,allItems;
+    public void deleteButtonClick() {
+        String username = "root";
+        String password = "Rezam14369";
+        String url = "jdbc:mysql://localhost:3306/groceryStore";
+
+        ObservableList<Inventory> itemSelected, allItems;
         allItems = inventoryTable.getItems();
         itemSelected = inventoryTable.getSelectionModel().getSelectedItems();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            Connection con = DriverManager.getConnection(url, username, password);
+
+            String query = "delete from inventory where name='" + itemSelected.get(0).getName() + "'";
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         itemSelected.forEach(allItems::remove);
+
     }
+
     private void setSellersCount() {
         try {
             sellersCount = (int) Files.lines(Paths.get("src/LoginScreen/stores.txt")).count();
